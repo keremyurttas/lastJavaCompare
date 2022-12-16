@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
@@ -171,7 +171,7 @@ public class AddNewLaptop extends javax.swing.JFrame {
     }//GEN-LAST:event_TFSizeActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Laptop laptop = new Laptop(this.TFGpu.getText(), this.TFProccesor.getText(), this.TFScreen.getText(), this.TFWeight.getText(), this.TFSize.getText(), this.TFStorage.getText(), this.TFBrand.getText(), this.TFModel.getText(), this.TFYear.getText(), this.TFOperatingSystem.getText(), this.TFPrice.getText(), this.TFRam.getText());
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

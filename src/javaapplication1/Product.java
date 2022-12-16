@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package javaapplication1;
 
-/**
- *
- * @author Pclab02
- */
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     String proccesor;
     double screen;
     double weight;
@@ -18,8 +12,10 @@ public class Product {
     String model;
     int year;
     String operatingSystem;
+    int price;
+    int ram;
 
-    public Product(String proccesor, double screen, double weight, double size, int storage, String brand, String model, int year, String operatingSystem, double price, int ram) {
+    public Product(String proccesor, double screen, double weight, double size, int storage, String brand, String model, int year, String operatingSystem, int price, int ram) {
         this.proccesor = proccesor;
         this.screen = screen;
         this.weight = weight;
@@ -105,11 +101,11 @@ public class Product {
         this.operatingSystem = operatingSystem;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -120,7 +116,4 @@ public class Product {
     public void setRam(int ram) {
         this.ram = ram;
     }
-    double price;
-    int ram;
-    
 }

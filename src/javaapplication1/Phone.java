@@ -1,24 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package javaapplication1;
 
-/**
- *
- * @author Pclab02
- */
-public class Phone extends Product {
+import java.io.Serializable;
+
+public class Phone extends Product implements Serializable {
 
     double fCam;
     double mainCam;
     int battery;
+    int id;
 
-    public Phone(double fCam, double mainCam, int battery, String proccesor, double screen, double weight, double size, int storage, String brand, String model, int year, String operatingSystem, double price, int ram) {
+    public Phone(double fCam, double mainCam, int battery, int id, String proccesor, double screen, double weight, double size, int storage, String brand, String model, int year, String operatingSystem, int price, int ram) {
         super(proccesor, screen, weight, size, storage, brand, model, year, operatingSystem, price, ram);
         this.fCam = fCam;
         this.mainCam = mainCam;
         this.battery = battery;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public double getfCam() {
