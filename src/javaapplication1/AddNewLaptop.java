@@ -163,7 +163,7 @@ public class AddNewLaptop extends javax.swing.JFrame {
     }//GEN-LAST:event_TFGpuActionPerformed
 
     private void TFPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFPriceActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling codeasd here:
     }//GEN-LAST:event_TFPriceActionPerformed
 
     private void TFSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFSizeActionPerformed
