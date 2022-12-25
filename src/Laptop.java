@@ -1,19 +1,22 @@
-package javaapplication1;
 
 import java.io.Serializable;
 
 public class Laptop extends Product implements Serializable {
 
     String GPU;
-    int id;  
+    String id;  
 
-    public Laptop(String GPU, int id, String proccesor, double screen, double weight, double size, int storage, String brand, String model, int year, String operatingSystem, int price, int ram) {
+    public Laptop(String GPU, String id, String proccesor, double screen, double weight, double size, int storage, String brand, String model, int year, String operatingSystem, int price, int ram) {
         super(proccesor, screen, weight, size, storage, brand, model, year, operatingSystem, price, ram);
         this.GPU = GPU;
         this.id = id;
     }
+    
+    public Laptop(String brand, String model, int price){
+        super(brand, model, price);
+    }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
     

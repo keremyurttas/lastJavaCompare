@@ -1,4 +1,3 @@
-package javaapplication1;
 
 import java.io.EOFException;
 import java.io.FileInputStream;
@@ -7,7 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.UUID;
+//import java.util.UUID;
 import javax.swing.JOptionPane;
 
 public class AddLaptop extends javax.swing.JFrame {
@@ -19,12 +18,12 @@ public class AddLaptop extends javax.swing.JFrame {
         laptops = new ArrayList<Laptop>();
     }
 
-    public String generateID() {
+    /*public String generateID() {
 
         UUID uuid = UUID.randomUUID();
         String uuidAsString = uuid.toString();
         return uuidAsString.substring(0, 5);
-    }
+    }*/
 
     public void populateArrayList() {
         try {
@@ -96,10 +95,9 @@ public class AddLaptop extends javax.swing.JFrame {
         tfOS = new javax.swing.JTextField();
         tfPrice = new javax.swing.JTextField();
         tfRAM = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(550, 300));
         setMinimumSize(new java.awt.Dimension(550, 300));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
@@ -137,10 +135,16 @@ public class AddLaptop extends javax.swing.JFrame {
 
         jLabel13.setText("RAM:");
 
-        jButton1.setText("Save");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        tfGPU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                tfGPUActionPerformed(evt);
+            }
+        });
+
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
             }
         });
 
@@ -202,7 +206,7 @@ public class AddLaptop extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
+                            .addComponent(saveButton)
                             .addComponent(tfRAM, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -242,9 +246,9 @@ public class AddLaptop extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(tfBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(tfModel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tfModel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
@@ -258,53 +262,53 @@ public class AddLaptop extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(saveButton)
                         .addGap(24, 24, 24)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (this.tfGPU.getText().isEmpty()
-                || this.tfProcessor.getText().isEmpty()
-                || this.tfScreen.getText().isEmpty()
-                || this.tfWeight.getText().isEmpty()
-                || this.tfSize.getText().isEmpty()
-                || this.tfStorage.getText().isEmpty()
-                || this.tfBrand.getText().isEmpty()
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        if (//this.tfGPU.getText().isEmpty()
+                //|| this.tfProcessor.getText().isEmpty()
+                //|| this.tfScreen.getText().isEmpty()
+                //|| this.tfWeight.getText().isEmpty()
+                //|| this.tfSize.getText().isEmpty()
+                //|| this.tfStorage.getText().isEmpty()
+                 this.tfBrand.getText().isEmpty()
                 || this.tfModel.getText().isEmpty()
-                || this.tfYear.getText().isEmpty()
-                || this.tfOS.getText().isEmpty()
-                || this.tfPrice.getText().isEmpty()
-                || this.tfRAM.getText().isEmpty()) {
+                //|| this.tfYear.getText().isEmpty()
+               // || this.tfOS.getText().isEmpty()
+                || this.tfPrice.getText().isEmpty()) {
+                //|| this.tfRAM.getText().isEmpty()) {
 
             JOptionPane.showMessageDialog(null,
                     "Please enter all details");
         } else {
-            String GPU = this.tfGPU.getText().trim();
-            String processor = this.tfProcessor.getText().trim();
-            String screen = this.tfScreen.getText().trim();
-            String weight = this.tfWeight.getText().trim();
-            String size = this.tfSize.getText().trim();
-            String storage = this.tfStorage.getText().trim();
+            //String GPU = this.tfGPU.getText().trim();
+            //String processor = this.tfProcessor.getText().trim();
+            //String screen = this.tfScreen.getText().trim();
+            //String weight = this.tfWeight.getText().trim();
+            //String size = this.tfSize.getText().trim();
+            //String storage = this.tfStorage.getText().trim();
             String brand = this.tfBrand.getText().trim();
             String model = this.tfModel.getText().trim();
-            String year = this.tfYear.getText().trim();
-            String os = this.tfOS.getText().trim();
+            //String year = this.tfYear.getText().trim();
+            //String os = this.tfOS.getText().trim();
             String price = this.tfPrice.getText().trim();
-            String RAM = this.tfRAM.getText().trim();
-            String id = generateID();
+            //String RAM = this.tfRAM.getText().trim();
+            //String id = generateID();
 
-            Laptop laptop = new Laptop(GPU, id, processor, Double.parseDouble(screen), Double.parseDouble(weight), Double.parseDouble(size), Integer.parseInt(storage), brand, model, Integer.parseInt(year), os, Integer.parseInt(price), Integer.parseInt(RAM));
+            Laptop laptop = new Laptop(brand, model, Integer.parseInt(price));
             laptops.add(laptop);
             saveLaptopsToFile();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_saveButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
@@ -315,6 +319,10 @@ public class AddLaptop extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_formWindowClosed
+
+    private void tfGPUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfGPUActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfGPUActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -349,7 +357,6 @@ public class AddLaptop extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -363,6 +370,7 @@ public class AddLaptop extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JButton saveButton;
     private javax.swing.JTextField tfBrand;
     private javax.swing.JTextField tfGPU;
     private javax.swing.JTextField tfModel;

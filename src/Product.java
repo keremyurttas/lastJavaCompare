@@ -1,4 +1,3 @@
-package javaapplication1;
 
 import java.io.Serializable;
 
@@ -27,6 +26,12 @@ public class Product implements Serializable {
         this.operatingSystem = operatingSystem;
         this.price = price;
         this.ram = ram;
+    }
+    
+    public Product(String brand, String model, int price){
+        this.brand = brand;
+        this.model = model;
+        this.price = price;
     }
 
     public String getProccesor() {
