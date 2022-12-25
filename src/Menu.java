@@ -1,40 +1,40 @@
 
+import java.awt.BorderLayout;
 import java.io.BufferedReader;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Menu extends javax.swing.JFrame {
-    
-    
 
     public Menu() {
         initComponents();
-       // laptopModels = new ArrayList<Laptop>();
+        // laptopModels = new ArrayList<Laptop>();
         /*populateArrayList();
 
-        String[] laptopArray = new String[laptopModels.size()];
+        String[] laptopList = new String[laptopModels.size()];
         for (int i = 0; i < laptopModels.size(); i++) {
-            laptopArray[i] = laptopModels.get(i).getId();
+            laptopList[i] = laptopModels.get(i).getId();
         }*/
     }
 
     /*public void CreateNewItem() {
         populateArrayList();
-        String[] laptopArray = new String[laptopModels.size()];
+        String[] laptopList = new String[laptopModels.size()];
         for (int i = 0; i < laptopModels.size(); i++) {
-            laptopArray[i] = laptopModels.get(i).showSum();
+            laptopList[i] = laptopModels.get(i).showSum();
         }
         JFrame frame = new JFrame("JList Demo");
         JPanel panel = new JPanel();
-        JList list = new JList(laptopArray);
+        JList list = new JList(laptopList);
 
         int begn = 0;
         int end = list.getModel().getSize() - 1;
@@ -72,7 +72,6 @@ public class Menu extends javax.swing.JFrame {
         }
 
     }*/
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -216,35 +215,85 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String filePath = "C:\\Users\\HP\\Documents\\NetBeansProjects\\lastJavaCompare\\Laptops.txt";
-        File file = new File(filePath);
-        
+        //String filePath = "C:\\Users\\HP\\Documents\\NetBeansProjects\\lastJavaCompare\\Laptops.txt";
+//        String filePath = "/home/kerem/NetBeansProjects/CompareProject/lastJavaCompare/Laptops.txt";
+//        File file = new File(filePath);
+//        BufferedReader reader;
+//        try {
+//            reader = new BufferedReader(new FileReader("data.txt"));
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        FileReader data = null;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            // get the first line
-            // get the columns name from the first line
-            // set columns name to the jtable model
-            //String firstLine = br.readLine().trim();
-            //String[] columnsName = firstLine.split(",");
-            DefaultTableModel model = (DefaultTableModel)table.getModel();
-            //model.setColumnIdentifiers(columnsName);
-            
-            // get lines from txt file
-            Object[] tableLines = br.lines().toArray();
-            
-            // extratct data from lines
-            // set data to jtable model
-            for(int i = 0; i < tableLines.length; i++){
-                String line = tableLines[i].toString().trim();
-                String[] dataRow = line.split("/");
-                model.addRow(dataRow);
+            data = new FileReader("data.txt");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        BufferedReader reader = new BufferedReader(data);
+        String line;
+
+//        Object[] laptopList = new Object[lineCount];
+        List<Laptop> laptopList = new ArrayList<>();
+
+        try {
+
+            while ((line = reader.readLine()) != null) {
+
+                String[] parts = line.split(" ,");
+                String brand = parts[0].trim();
+                String model = parts[1].trim();
+                String price = parts[2].trim();
+
+                Laptop l = new Laptop(brand, model, Integer.parseInt(price));
+                laptopList.add(l);
+
             }
-            
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, 
-                    e.getMessage());
-        }   
+            System.out.println(laptopList.get(1).getModel());
+
+            JTable laptopTable = new JTable();
+            DefaultTableModel model = new DefaultTableModel();
+
+            model.addColumn("Brand");
+            model.addColumn("Model");
+            model.addColumn("Price");
+
+            for (Laptop laptop : laptopList) {
+                System.out.println(laptop.getBrand());
+                model.addRow(new Object[]{laptop.getBrand(), laptop.getModel(), laptop.getPrice()});
+            }
+            laptopTable.setModel(model);
+            System.out.println(laptopTable.s());
+            laptopTable.add(table, BorderLayout.CENTER);
+
+            //        try {
+            //            BufferedReader br = new BufferedReader(new FileReader(file));
+            //            // get the first line
+            //            // get the columns name from the first line
+            //            // set columns name to the jtable model
+            //            //String firstLine = br.readLine().trim();
+            //            //String[] columnsName = firstLine.split(",");
+            //            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            //            //model.setColumnIdentifiers(columnsName);
+            //
+            //            // get lines from txt file
+            //            Object[] tableLines = br.lines().toArray();
+            //
+            //            // extratct data from lines
+            //            // set data to jtable model
+            //            for (int i = 0; i < tableLines.length; i++) {
+            //                String line = tableLines[i].toString().trim();
+            //                String[] dataRow = line.split("/");
+            //                model.addRow(dataRow);
+            //            }
+            //
+            //        } catch (Exception e) {
+            //            JOptionPane.showMessageDialog(null,
+            //                    e.getMessage());
+            //        }
+        } catch (IOException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
