@@ -15,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
 public final class Menu extends javax.swing.JFrame {
 
     List<Laptop> laptopList = new ArrayList<>();
-    JScrollPane pane;
     JTable laptopTable = new JTable();
 
     public Menu() {
@@ -265,12 +264,13 @@ public final class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFrame frame = new JFrame();
-        frame.add(laptopTable);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+//      appending table to scrollPane
+        scrollPane.setViewportView(laptopTable);
+//        frame.add(laptopTable);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setSize(400, 400);
+//        frame.setLocationRelativeTo(null);
+//        frame.setVisible(true);
 //        table.add(laptopTable);
 //        laptopTable.setVisible(true);
 //        System.out.println(laptopTable.getValueAt(1, 1));
