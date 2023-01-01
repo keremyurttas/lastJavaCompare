@@ -7,19 +7,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 public final class Menu extends javax.swing.JFrame {
 
     List<Laptop> laptopList = new ArrayList<>();
     JTable laptopTable = new JTable();
     Object value;
+    Laptop product1, product2;
     int selectedRow = -1;
+    String id1, id2;
 
     public Menu() {
         initComponents();
@@ -83,6 +88,7 @@ public final class Menu extends javax.swing.JFrame {
         model.addColumn("Brand");
         model.addColumn("Model");
         model.addColumn("Price");
+        model.isCellEditable(ERROR, ERROR);
 
         for (Laptop laptop : laptopList) {
             System.out.println(laptop.getBrand());
@@ -116,6 +122,19 @@ public final class Menu extends javax.swing.JFrame {
 //        });
 
 //        laptopTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+    }
+
+    public int findProductIndex(int id) {
+
+        int index = -1;
+        for (int i = 0; i < laptopList.size(); i++) {
+            if (laptopList.get(i).getId() == id) {
+                index = i;
+                break;
+
+            }
+        }
+        return index;
     }
 
     /*public void CreateNewItem() {
@@ -184,7 +203,6 @@ public final class Menu extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -193,15 +211,12 @@ public final class Menu extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(962, 601));
@@ -220,6 +235,11 @@ public final class Menu extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableMousePressed(evt);
             }
         });
         scrollPane.setViewportView(table);
@@ -248,13 +268,6 @@ public final class Menu extends javax.swing.JFrame {
 
         jLabel8.setText("jLabel8");
 
-        jButton2.setText("Add product");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jLabel9.setText("ID :");
 
         jLabel11.setText("Model :");
@@ -271,15 +284,14 @@ public final class Menu extends javax.swing.JFrame {
 
         jLabel16.setText("jLabel16");
 
-        jMenu1.setText("Menu");
-
-        jMenuItem1.setText("laptop/phone");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+
+        jMenu1.setText("Menu");
 
         jMenuItem2.setText("exit");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -294,29 +306,14 @@ public final class Menu extends javax.swing.JFrame {
         jMenu2.setText("Compare");
 
         jMenuItem5.setText("Compare");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem5);
 
         menuBar.add(jMenu2);
-
-        jMenu3.setText("Add");
-
-        jMenuItem3.setText("Add Laptop");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem3);
-
-        jMenuItem4.setText("Add Phone");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem4);
-
-        menuBar.add(jMenu3);
 
         setJMenuBar(menuBar);
 
@@ -350,18 +347,17 @@ public final class Menu extends javax.swing.JFrame {
                             .addComponent(jLabel10)
                             .addComponent(jLabel11)
                             .addComponent(jLabel12)
-                            .addComponent(jLabel9))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel16)))
+                            .addComponent(jLabel9)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(76, 76, 76)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(63, 63, 63)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(288, Short.MAX_VALUE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel16))
+                .addContainerGap(345, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -407,18 +403,6 @@ public final class Menu extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        new AddLaptop().setVisible(true);
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        new AddPhone().setVisible(true);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "You haven't choose any product");
@@ -426,9 +410,11 @@ public final class Menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Same products can't compare");
         } else {
             // setting products infos.
-            jLabel5.setText(value.toString());
+            id1 = value.toString();
+            jLabel5.setText(id1);
             selectedRow = -1;
-
+            System.out.println(laptopList.get(findProductIndex(Integer.parseInt(id1))));
+            product1 = laptopList.get(findProductIndex(Integer.parseInt(id1)));
         }
 
 //        frame.add(laptopTable);
@@ -477,19 +463,38 @@ public final class Menu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void tableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMousePressed
+        int index = laptopTable.getSelectedRow();
+        TableModel schema = laptopTable.getModel();
+        jLabel13.setText(schema.getValueAt(index, 1).toString());
+        System.out.println("Test");
+    }//GEN-LAST:event_tableMousePressed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        /*JFrame Compare = new JFrame();
+        JLabel label = new JLabel();
+        label.setText(id1);
+        Compare.add(label);*/
+        //new Compare("32").setVisible(true);
+        Compare compare = new Compare();
+        compare.setData(product1, product2);
+        compare.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "You haven't choose any product");
         } else if (value.toString().equals(jLabel5.getText())) {
             JOptionPane.showMessageDialog(null, "Same products can't compare");
         } else {
             // setting products infos.
-            jLabel13.setText(value.toString());
+            id2 = value.toString();
+            jLabel13.setText(id2);
             selectedRow = -1;
-
-        }
+            System.out.println(laptopList.get(findProductIndex(Integer.parseInt(id2))));
+            product2 = laptopList.get(findProductIndex(Integer.parseInt(id2)));
     }//GEN-LAST:event_jButton2ActionPerformed
+    }
 
     /**
      * @param args the command line arguments
@@ -547,11 +552,7 @@ public final class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JScrollPane scrollPane;
