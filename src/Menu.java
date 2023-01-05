@@ -7,15 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 public final class Menu extends javax.swing.JFrame {
 
@@ -88,10 +86,8 @@ public final class Menu extends javax.swing.JFrame {
         model.addColumn("Brand");
         model.addColumn("Model");
         model.addColumn("Price");
-        model.isCellEditable(ERROR, ERROR);
 
         for (Laptop laptop : laptopList) {
-            System.out.println(laptop.getBrand());
             model.addRow(new Object[]{laptop.getId(), laptop.getBrand(), laptop.getModel(), laptop.getPrice()});
         }
         laptopTable.setModel(model);
@@ -195,23 +191,10 @@ public final class Menu extends javax.swing.JFrame {
         scrollPane = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        imageLabel = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -237,59 +220,29 @@ public final class Menu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        table.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                tableMousePressed(evt);
-            }
-        });
         scrollPane.setViewportView(table);
 
-        jButton1.setText("Add product");
+        jButton1.setText("Product #1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("ID :");
-
-        jLabel2.setText("Model :");
-
-        jLabel3.setText("Cpu :");
-
-        jLabel4.setText("Price:");
-
-        jLabel5.setText("jLabel5");
-
-        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("jLabel6");
-
-        jLabel7.setText("jLabel7");
-
-        jLabel8.setText("jLabel8");
-
-        jLabel9.setText("ID :");
-
-        jLabel11.setText("Model :");
-
-        jLabel10.setText("Cpu :");
-
-        jLabel12.setText("Price :");
+        jLabel5.setText("Product Brand and Model");
 
         jLabel13.setText("jLabel13");
 
-        jLabel14.setText("jLabel14");
-
-        jLabel15.setText("jLabel15");
-
-        jLabel16.setText("jLabel16");
-
-        jButton2.setText("jButton2");
+        jButton2.setText("Product #2");
+        jButton2.setMaximumSize(new java.awt.Dimension(97, 22));
+        jButton2.setMinimumSize(new java.awt.Dimension(97, 22));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
+
+        imageLabel.setText("Image");
 
         jMenu1.setText("Menu");
 
@@ -322,42 +275,23 @@ public final class Menu extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(63, 63, 63)
+                .addContainerGap()
                 .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel7))))
-                        .addGap(80, 80, 80)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel9)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(92, 92, 92)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel16))
-                .addContainerGap(345, Short.MAX_VALUE))
+                        .addGap(162, 162, 162)
+                        .addComponent(jLabel13))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(102, 102, 102)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(401, 401, 401))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,33 +299,16 @@ public final class Menu extends javax.swing.JFrame {
                 .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel5)
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel13)
+                        .addGap(95, 95, 95)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
-                            .addComponent(jButton2))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel13))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel14))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel15))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel16)))
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(135, Short.MAX_VALUE))
         );
@@ -406,15 +323,20 @@ public final class Menu extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "You haven't choose any product");
-        } else if (value.toString().equals(jLabel13.getText())) {
+        } else if (value.toString().equals(id2)) {
             JOptionPane.showMessageDialog(null, "Same products can't compare");
         } else {
             // setting products infos.
             id1 = value.toString();
-            jLabel5.setText(id1);
+
             selectedRow = -1;
             System.out.println(laptopList.get(findProductIndex(Integer.parseInt(id1))));
             product1 = laptopList.get(findProductIndex(Integer.parseInt(id1)));
+            jButton1.setText(product1.getBrand() + " " + product1.getModel());
+
+            ImageIcon icon = new ImageIcon("pics/image.jpg");
+            imageLabel.setIcon(icon);
+            imageLabel.setLayout(null);
         }
 
 //        frame.add(laptopTable);
@@ -463,13 +385,6 @@ public final class Menu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void tableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMousePressed
-        int index = laptopTable.getSelectedRow();
-        TableModel schema = laptopTable.getModel();
-        jLabel13.setText(schema.getValueAt(index, 1).toString());
-        System.out.println("Test");
-    }//GEN-LAST:event_tableMousePressed
-
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         /*JFrame Compare = new JFrame();
         JLabel label = new JLabel();
@@ -484,15 +399,16 @@ public final class Menu extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "You haven't choose any product");
-        } else if (value.toString().equals(jLabel5.getText())) {
+        } else if (value.toString().equals(id1)) {
+
             JOptionPane.showMessageDialog(null, "Same products can't compare");
         } else {
             // setting products infos.
             id2 = value.toString();
-            jLabel13.setText(id2);
             selectedRow = -1;
             System.out.println(laptopList.get(findProductIndex(Integer.parseInt(id2))));
             product2 = laptopList.get(findProductIndex(Integer.parseInt(id2)));
+            jButton2.setText(product2.getBrand() + " " + product2.getModel());
     }//GEN-LAST:event_jButton2ActionPerformed
     }
 
@@ -532,24 +448,11 @@ public final class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel imageLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem2;

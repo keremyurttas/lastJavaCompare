@@ -13,19 +13,18 @@ public class Compare extends javax.swing.JFrame {
      * Creates new form Compare
      */
     Laptop firstProduct, secondProduct;
-    String firstID;
     
     public Compare() {
         initComponents();
     }
     
-    public Compare(String firstID){
-        initComponents();
-        this.firstID = firstID;
-    }
     
     public void setData(Laptop firstProduct, Laptop secondProduct){
-        System.out.println(firstProduct.getBrand());
+        System.out.println("brand"+firstProduct.getBrand());
+        jLabel1.setText("asdsa"+(firstProduct.getBrand()));
+      
+                
+        
     }
 
     /**
