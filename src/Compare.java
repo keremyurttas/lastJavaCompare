@@ -1,3 +1,6 @@
+
+import javax.swing.ImageIcon;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -13,18 +16,31 @@ public class Compare extends javax.swing.JFrame {
      * Creates new form Compare
      */
     Laptop firstProduct, secondProduct;
-    
+
     public Compare() {
         initComponents();
+
     }
-    
-    
-    public void setData(Laptop firstProduct, Laptop secondProduct){
-        System.out.println("brand"+firstProduct.getBrand());
-        jLabel1.setText("asdsa"+(firstProduct.getBrand()));
-      
-                
+
+    public void setData(Laptop firstProduct, Laptop secondProduct) {
+        this.firstProduct = firstProduct;
+        this.secondProduct = secondProduct;
+        displayProducts();
+
+    }
+
+    public void displayProducts() {
+        ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource(firstProduct.getImg()));
+        firstProductImageLabel.setIcon(icon1);
+        ImageIcon icon2 = new javax.swing.ImageIcon(getClass().getResource(secondProduct.getImg()));
+        secondProductImageLabel.setIcon(icon2);
         
+        firstProductHeaderLabel.setText(firstProduct.getBrand() + " " + firstProduct.getModel()
+        );
+        firstProductPriceLabel.setText(Integer.toString(firstProduct.getPrice()));
+        secondProductHeaderLabel.setText(secondProduct.getBrand() + " " + secondProduct.getModel()
+        );
+        secondProductPriceLabel.setText(Integer.toString(secondProduct.getPrice()));
     }
 
     /**
@@ -36,37 +52,118 @@ public class Compare extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        secondProductImageLabel = new javax.swing.JLabel();
+        firstProductImageLabel = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        firstProductHeaderLabel = new javax.swing.JLabel();
+        secondProductHeaderLabel = new javax.swing.JLabel();
+        firstProductPriceLabel = new javax.swing.JLabel();
+        secondProductPriceLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("x");
+        secondProductImageLabel.setText("jLabel3");
 
-        jLabel2.setText("jLabel2");
+        firstProductImageLabel.setText("jLabel3");
+
+        jLabel5.setText("GPU :");
+
+        jLabel6.setText("CPU :");
+
+        jLabel7.setText("Ram :");
+
+        jLabel8.setText("Storage :");
+
+        jLabel9.setText("Screen :");
+
+        jLabel10.setText("Weight :");
+
+        firstProductHeaderLabel.setText("brand model");
+
+        secondProductHeaderLabel.setText("jLabel11");
+
+        firstProductPriceLabel.setText("price");
+
+        secondProductPriceLabel.setText("jLabel14");
+
+        jLabel1.setText("Year :");
+
+        jLabel2.setText("Operation Sys. :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(164, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(149, 149, 149)
-                        .addComponent(jLabel2)))
-                .addContainerGap(214, Short.MAX_VALUE))
+                    .addComponent(firstProductImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(firstProductHeaderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(firstProductPriceLabel))
+                .addGap(82, 82, 82)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(secondProductPriceLabel)
+                    .addComponent(secondProductHeaderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(secondProductImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(56, 56, 56))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel9))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(50, 50, 50)
+                            .addComponent(jLabel8)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel6)
+                        .addComponent(jLabel7)
+                        .addComponent(jLabel5)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel2)
-                .addGap(63, 63, 63)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(firstProductImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(secondProductImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstProductHeaderLabel)
+                    .addComponent(secondProductHeaderLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstProductPriceLabel)
+                    .addComponent(secondProductPriceLabel))
+                .addGap(37, 37, 37)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
-                .addContainerGap(171, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
@@ -108,7 +205,19 @@ public class Compare extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel firstProductHeaderLabel;
+    private javax.swing.JLabel firstProductImageLabel;
+    private javax.swing.JLabel firstProductPriceLabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel secondProductHeaderLabel;
+    private javax.swing.JLabel secondProductImageLabel;
+    private javax.swing.JLabel secondProductPriceLabel;
     // End of variables declaration//GEN-END:variables
 }
