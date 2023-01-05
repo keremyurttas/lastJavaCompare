@@ -1,4 +1,5 @@
 
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -22,12 +24,14 @@ public final class Menu extends javax.swing.JFrame {
     Object value;
     Laptop product1, product2;
     int selectedRow = -1;
-    String id1, id2;
+    int activeID;
+    int id1, id2;
 
     public Menu() {
         initComponents();
         populateLaptopList();
         createTable();
+        tableEventListener();
 
         //      appending table to scrollPane
         scrollPane.setViewportView(laptopTable);
@@ -97,18 +101,6 @@ public final class Menu extends javax.swing.JFrame {
 //
 //            System.out.println(selectedRows[0] + selectedRows[1]);
 //        }
-        ListSelectionModel laptopModel = laptopTable.getSelectionModel();
-        laptopModel.addListSelectionListener(new ListSelectionListener() {
-
-            public void valueChanged(ListSelectionEvent e) {
-                if (!laptopModel.isSelectionEmpty()) {
-                    selectedRow = laptopModel.getMinSelectionIndex();
-                    value = laptopTable.getValueAt(selectedRow, 0);
-//                    JOptionPane.showMessageDialog(null, "Selected Row" + selectedRow + "selected val: " + value);
-                }
-            }
-
-        });
 //        laptopTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 //          
 //                // do some actions here, for example
@@ -116,8 +108,23 @@ public final class Menu extends javax.swing.JFrame {
 //                System.out.println(table.getValueAt(table.getSelectedRow(), 0).toString());
 //            
 //        });
-
 //        laptopTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+    }
+
+    public void tableEventListener() {
+        ListSelectionModel laptopModel = laptopTable.getSelectionModel();
+        laptopModel.addListSelectionListener(new ListSelectionListener() {
+
+            public void valueChanged(ListSelectionEvent e) {
+                if (!laptopModel.isSelectionEmpty()) {
+                    selectedRow = laptopModel.getMinSelectionIndex();
+                    value = laptopTable.getValueAt(selectedRow, 0);
+                    activeID = Integer.parseInt(value.toString());
+//                    JOptionPane.showMessageDialog(null, "Selected Row" + selectedRow + "selected val: " + value);
+                }
+            }
+
+        });
     }
 
     public int findProductIndex(int id) {
@@ -133,52 +140,6 @@ public final class Menu extends javax.swing.JFrame {
         return index;
     }
 
-    /*public void CreateNewItem() {
-        populateArrayList();
-        String[] laptopList = new String[laptopModels.size()];
-        for (int i = 0; i < laptopModels.size(); i++) {
-            laptopList[i] = laptopModels.get(i).showSum();
-        }
-        JFrame frame = new JFrame("JList Demo");
-        JPanel panel = new JPanel();
-        JList list = new JList(laptopList);
-
-        int begn = 0;
-        int end = list.getModel().getSize() - 1;
-        if (end >= 0) {
-            list.setSelectionInterval(begn, end);
-        }
-        panel.add(list);
-        frame.add(panel);
-        frame.setSize(550, 300);
-        frame.setVisible(true);
-    }
-
-    public void populateArrayList() {
-
-        try {
-            FileInputStream file = new FileInputStream("Laptops.txt");
-            ObjectInputStream inputFile = new ObjectInputStream(file);
-
-            boolean endOfFile = false;
-            while (!endOfFile) {
-                try {
-                    laptopModels.add((Laptop) inputFile.readObject());
-
-                } catch (EOFException e) {
-                    endOfFile = true;
-                } catch (Exception f) {
-                    JOptionPane.showMessageDialog(null,
-                            f.getMessage());
-                }
-            }
-            inputFile.close();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null,
-                    e.getMessage());
-        }
-
-    }*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -243,6 +204,9 @@ public final class Menu extends javax.swing.JFrame {
         });
 
         imageLabel.setText("Image");
+        imageLabel.setMaximumSize(new java.awt.Dimension(480, 360));
+        imageLabel.setMinimumSize(new java.awt.Dimension(480, 360));
+        imageLabel.setPreferredSize(new java.awt.Dimension(480, 360));
 
         jMenu1.setText("Menu");
 
@@ -288,9 +252,10 @@ public final class Menu extends javax.swing.JFrame {
                         .addComponent(jLabel13))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(102, 102, 102)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(401, 401, 401))
         );
         layout.setVerticalGroup(
@@ -299,9 +264,9 @@ public final class Menu extends javax.swing.JFrame {
                 .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
+                        .addGap(17, 17, 17)
+                        .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addGap(31, 31, 31)
                         .addComponent(jLabel13)
@@ -310,7 +275,7 @@ public final class Menu extends javax.swing.JFrame {
                             .addComponent(jButton1)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
 
         pack();
@@ -323,65 +288,21 @@ public final class Menu extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "You haven't choose any product");
-        } else if (value.toString().equals(id2)) {
+        } else if (activeID == id2) {
             JOptionPane.showMessageDialog(null, "Same products can't compare");
         } else {
             // setting products infos.
-            id1 = value.toString();
-
+            id1 = activeID;
             selectedRow = -1;
-            System.out.println(laptopList.get(findProductIndex(Integer.parseInt(id1))));
-            product1 = laptopList.get(findProductIndex(Integer.parseInt(id1)));
+            product1 = laptopList.get(findProductIndex(id1));
             jButton1.setText(product1.getBrand() + " " + product1.getModel());
-
-            ImageIcon icon = new ImageIcon("pics/image.jpg");
+//            ImageIcon icon = new ImageIcon("/pics/image2.jpg");
+//            imageLabel.setIcon(icon);
+            ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/pics/image.jpg"));
             imageLabel.setIcon(icon);
-            imageLabel.setLayout(null);
+
         }
 
-//        frame.add(laptopTable);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(400, 400);
-//        frame.setLocationRelativeTo(null);
-//        frame.setVisible(true);
-//        table.add(laptopTable);
-//        laptopTable.setVisible(true);
-//        System.out.println(laptopTable.getValueAt(1, 1));
-        //String filePath = "C:\\Users\\HP\\Documents\\NetBeansProjects\\lastJavaCompare\\Laptops.txt";
-//        String filePath = "/home/kerem/NetBeansProjects/CompareProject/lastJavaCompare/Laptops.txt";
-//        File file = new File(filePath);
-//        BufferedReader reader;
-//        try {
-//            reader = new BufferedReader(new FileReader("data.txt"));
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        //table.add(laptopTable);
-        //        try {
-        //            BufferedReader br = new BufferedReader(new FileReader(file));
-        //            // get the first line
-        //            // get the columns name from the first line
-        //            // set columns name to the jtable model
-        //            //String firstLine = br.readLine().trim();
-        //            //String[] columnsName = firstLine.split(",");
-        //            DefaultTableModel model = (DefaultTableModel) table.getModel();
-        //            //model.setColumnIdentifiers(columnsName);
-        //
-        //            // get lines from txt file
-        //            Object[] tableLines = br.lines().toArray();
-        //
-        //            // extratct data from lines
-        //            // set data to jtable model
-        //            for (int i = 0; i < tableLines.length; i++) {
-        //                String line = tableLines[i].toString().trim();
-        //                String[] dataRow = line.split("/");
-        //                model.addRow(dataRow);
-        //            }
-        //
-        //        } catch (Exception e) {
-        //            JOptionPane.showMessageDialog(null,
-        //                    e.getMessage());
-        //        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -399,15 +320,14 @@ public final class Menu extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "You haven't choose any product");
-        } else if (value.toString().equals(id1)) {
+        } else if (activeID == id1) {
 
             JOptionPane.showMessageDialog(null, "Same products can't compare");
         } else {
             // setting products infos.
-            id2 = value.toString();
+            id2 = activeID;
             selectedRow = -1;
-            System.out.println(laptopList.get(findProductIndex(Integer.parseInt(id2))));
-            product2 = laptopList.get(findProductIndex(Integer.parseInt(id2)));
+            product2 = laptopList.get(findProductIndex(activeID));
             jButton2.setText(product2.getBrand() + " " + product2.getModel());
     }//GEN-LAST:event_jButton2ActionPerformed
     }
