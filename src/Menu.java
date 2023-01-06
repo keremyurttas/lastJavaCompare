@@ -72,7 +72,7 @@ public final class Menu extends javax.swing.JFrame {
                 String GPUscore = parts[12].trim();
                 String img = parts[13].trim();
                 //assign laptop with constructor from txt file values.
-                Laptop l = new Laptop(Integer.parseInt(id), brand, model, GPU, proccesor, Integer.parseInt(ram), storage, Double.parseDouble(screen), Double.parseDouble(weight), Integer.parseInt(year), operatingSystem, Integer.parseInt(price), Integer.parseInt(GPUscore) , img);
+                Laptop l = new Laptop(Integer.parseInt(id), brand, model, GPU, proccesor, Integer.parseInt(ram), storage, Double.parseDouble(screen), Double.parseDouble(weight), Integer.parseInt(year), operatingSystem, Integer.parseInt(price), Integer.parseInt(GPUscore), img);
                 //add new laptop object to laptoplist
                 laptopList.add(l);
 
@@ -318,9 +318,8 @@ public final class Menu extends javax.swing.JFrame {
                         .addComponent(priceLabel)
                         .addGap(99, 99, 99)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                                .addComponent(jButton1)
-                                .addComponent(jButton2))
+                            .addComponent(jButton2)
+                            .addComponent(jButton1)
                             .addComponent(clearButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(clearButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -389,15 +388,17 @@ public final class Menu extends javax.swing.JFrame {
             jButton2.setText(product2.getBrand() + " " + product2.getModel());
     }//GEN-LAST:event_jButton2ActionPerformed
     }
-    
+
     private void clearButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton1ActionPerformed
         jButton1.setText("Product #1");
+        product1 = null;
+
     }//GEN-LAST:event_clearButton1ActionPerformed
 
     private void clearButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton2ActionPerformed
         jButton2.setText("Product #2");
+        product2 = null;
     }//GEN-LAST:event_clearButton2ActionPerformed
-
 
     /**
      * @param args the command line arguments

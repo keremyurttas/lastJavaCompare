@@ -22,6 +22,20 @@ public class Product implements Serializable {
         this.ram = ram;
     }
 
+    public Product() {
+        this.screen = 0;
+        this.weight = 0;
+        this.img = null;
+        this.brand = null;
+        this.model = null;
+        this.year = 0;
+        this.price = 0;
+        this.processor = null;
+        this.storage = null;
+        this.operatingSystem = null;
+        this.ram = 0;
+    }
+
     public double getScreen() {
         return screen;
     }
@@ -77,7 +91,7 @@ public class Product implements Serializable {
     public void setProcessor(String processor) {
         this.processor = processor;
     }
-    
+
     public String getImg() {
         return img;
     }
@@ -108,5 +122,5 @@ public class Product implements Serializable {
 
     public void setRam(int ram) {
         this.ram = ram;
-    } 
+    }
 }
