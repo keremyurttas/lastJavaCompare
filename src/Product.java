@@ -9,12 +9,21 @@ public class Product implements Serializable {
     String model;
     int year;
     int price;
+    String img;
 
-    public Product(String proccesor, double screen, double weight, String storage, String brand, String model, int year, String operatingSystem, int price, int ram) {
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public Product(String proccesor, double screen, double weight, String storage, String brand, String model, int year, String operatingSystem, int price, int ram, String img) {
 
         this.screen = screen;
         this.weight = weight;
-
+        this.img = img;
         this.brand = brand;
         this.model = model;
         this.year = year;

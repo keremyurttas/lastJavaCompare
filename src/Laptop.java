@@ -42,8 +42,8 @@ public class Laptop extends Product implements Serializable {
     String operatingSystem;
     int ram;
 
-    public Laptop(int id, String brand, String model, String GPU, String proccesor, int ram, String storage, double screen, double weight, int year, String operatingSystem, int price) {
-        super(proccesor, screen, weight, storage, brand, model, year, operatingSystem, price, ram);
+    public Laptop(int id, String brand, String model, String GPU, String proccesor, int ram, String storage, double screen, double weight, int year, String operatingSystem, int price, String img) {
+        super(proccesor, screen, weight, storage, brand, model, year, operatingSystem, price, ram, img);
         this.GPU = GPU;
         this.id = id;
     }
