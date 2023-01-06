@@ -3,53 +3,22 @@ import java.io.Serializable;
 
 public class Laptop extends Product implements Serializable {
 
+    int id, GPUscore;
     String GPU;
-    int id;
-    String proccesor;
-    int storage;
-
-    public String getProccesor() {
-        return proccesor;
-    }
-
-    public void setProccesor(String proccesor) {
-        this.proccesor = proccesor;
-    }
-
-    public int getStorage() {
-        return storage;
-    }
-
-    public void setStorage(int storage) {
-        this.storage = storage;
-    }
-
-    public String getOperatingSystem() {
-        return operatingSystem;
-    }
-
-    public void setOperatingSystem(String operatingSystem) {
-        this.operatingSystem = operatingSystem;
-    }
-
-    public int getRam() {
-        return ram;
-    }
-
-    public void setRam(int ram) {
-        this.ram = ram;
-    }
-    String operatingSystem;
-    int ram;
-
-    public Laptop(int id, String brand, String model, String GPU, String proccesor, int ram, String storage, double screen, double weight, int year, String operatingSystem, int price, String img) {
+    
+    public Laptop(int id, String brand, String model, String GPU, String proccesor, int ram, String storage, double screen, double weight, int year, String operatingSystem, int price, int GPUscore, String img) {
         super(proccesor, screen, weight, storage, brand, model, year, operatingSystem, price, ram, img);
         this.GPU = GPU;
         this.id = id;
+        this.GPUscore = GPUscore;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getGPU() {
@@ -60,4 +29,11 @@ public class Laptop extends Product implements Serializable {
         this.GPU = GPU;
     }
 
+    public int getGPUscore() {
+        return GPUscore;
+    }
+
+    public void setGPUscore(int GPUscore) {
+        this.GPUscore = GPUscore;
+    }  
 }

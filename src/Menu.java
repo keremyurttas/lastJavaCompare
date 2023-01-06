@@ -69,9 +69,10 @@ public final class Menu extends javax.swing.JFrame {
                 String weight = parts[9].trim();
                 String year = parts[10].trim();
                 String operatingSystem = parts[11].trim();
-                String img = parts[12].trim();
+                String GPUscore = parts[12].trim();
+                String img = parts[13].trim();
                 //assign laptop with constructor from txt file values.
-                Laptop l = new Laptop(Integer.parseInt(id), brand, model, GPU, proccesor, Integer.parseInt(ram), storage, Double.parseDouble(screen), Double.parseDouble(weight), Integer.parseInt(year), operatingSystem, Integer.parseInt(price), img);
+                Laptop l = new Laptop(Integer.parseInt(id), brand, model, GPU, proccesor, Integer.parseInt(ram), storage, Double.parseDouble(screen), Double.parseDouble(weight), Integer.parseInt(year), operatingSystem, Integer.parseInt(price), Integer.parseInt(GPUscore) , img);
                 //add new laptop object to laptoplist
                 laptopList.add(l);
 
@@ -144,7 +145,7 @@ public final class Menu extends javax.swing.JFrame {
         ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource(laptop.getImg()));
         imageLabel.setIcon(icon);
         productHeaderLabel.setText(laptop.getBrand() + " " + laptop.getModel());
-        priceLabel.setText(laptop.getPrice() + " TL");
+        priceLabel.setText(laptop.getPrice() + " ₺");
 
     }
 
@@ -178,6 +179,8 @@ public final class Menu extends javax.swing.JFrame {
         priceLabel = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         imageLabel = new javax.swing.JLabel();
+        clearButton1 = new javax.swing.JButton();
+        clearButton2 = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -206,19 +209,20 @@ public final class Menu extends javax.swing.JFrame {
         scrollPane.setViewportView(table);
 
         jButton1.setText("Product #1");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        productHeaderLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         productHeaderLabel.setText("Product Brand and Model");
 
+        priceLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         priceLabel.setText("jLabel13");
 
         jButton2.setText("Product #2");
-        jButton2.setMaximumSize(new java.awt.Dimension(97, 22));
-        jButton2.setMinimumSize(new java.awt.Dimension(97, 22));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -230,9 +234,29 @@ public final class Menu extends javax.swing.JFrame {
         imageLabel.setMinimumSize(new java.awt.Dimension(480, 360));
         imageLabel.setPreferredSize(new java.awt.Dimension(480, 360));
 
+        clearButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8-close-16.png"))); // NOI18N
+        clearButton1.setMaximumSize(new java.awt.Dimension(16, 23));
+        clearButton1.setMinimumSize(new java.awt.Dimension(16, 23));
+        clearButton1.setPreferredSize(new java.awt.Dimension(16, 23));
+        clearButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButton1ActionPerformed(evt);
+            }
+        });
+
+        clearButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8-close-16.png"))); // NOI18N
+        clearButton2.setMaximumSize(new java.awt.Dimension(16, 23));
+        clearButton2.setMinimumSize(new java.awt.Dimension(16, 23));
+        clearButton2.setPreferredSize(new java.awt.Dimension(16, 23));
+        clearButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButton2ActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("Menu");
 
-        jMenuItem2.setText("exit");
+        jMenuItem2.setText("Exit");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -263,22 +287,22 @@ public final class Menu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(priceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(productHeaderLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(92, 92, 92)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(88, 88, 88)
-                        .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(productHeaderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(168, 168, 168)
-                        .addComponent(priceLabel)))
-                .addGap(401, 401, 401))
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clearButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addComponent(jButton2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(clearButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(424, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,10 +316,13 @@ public final class Menu extends javax.swing.JFrame {
                         .addComponent(productHeaderLabel)
                         .addGap(18, 18, 18)
                         .addComponent(priceLabel)
-                        .addGap(108, 108, 108)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(99, 99, 99)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                                .addComponent(jButton1)
+                                .addComponent(jButton2))
+                            .addComponent(clearButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(clearButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(141, Short.MAX_VALUE))
         );
@@ -336,6 +363,8 @@ public final class Menu extends javax.swing.JFrame {
         //send product 1 and 2 to compare class for comprasion with setData method
         compare.setData(product1, product2);
         compare.setVisible(true);
+        jButton1.setText("Product #1");
+        jButton2.setText("Procuct #2");
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -360,6 +389,15 @@ public final class Menu extends javax.swing.JFrame {
             jButton2.setText(product2.getBrand() + " " + product2.getModel());
     }//GEN-LAST:event_jButton2ActionPerformed
     }
+    
+    private void clearButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton1ActionPerformed
+        jButton1.setText("Product #1");
+    }//GEN-LAST:event_clearButton1ActionPerformed
+
+    private void clearButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton2ActionPerformed
+        jButton2.setText("Product #2");
+    }//GEN-LAST:event_clearButton2ActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -397,6 +435,8 @@ public final class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton clearButton1;
+    private javax.swing.JButton clearButton2;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

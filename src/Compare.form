@@ -24,21 +24,6 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="164" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="firstProductImageLabel" min="-2" pref="220" max="-2" attributes="0"/>
-                  <Component id="firstProductHeaderLabel" min="-2" pref="200" max="-2" attributes="0"/>
-                  <Component id="firstProductPriceLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="secondProductPriceLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="secondProductHeaderLabel" min="-2" pref="200" max="-2" attributes="0"/>
-                  <Component id="secondProductImageLabel" min="-2" pref="220" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -59,7 +44,66 @@
                       <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="firstProductImageLabel" alignment="0" pref="220" max="32767" attributes="0"/>
+                          <Component id="firstProductHeaderLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="firstProductPriceLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="firstGPU" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="82" pref="82" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="secondProductImageLabel" pref="220" max="32767" attributes="0"/>
+                          <Component id="secondProductHeaderLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="secondProductPriceLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="secondGPU" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="29" pref="29" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="firstCPU" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="firstStorage" max="32767" attributes="0"/>
+                                      <Component id="firstRAM" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Component id="firstYear" alignment="1" min="-2" pref="220" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="firstScreen" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="firstOS" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="firstWeight" alignment="0" pref="220" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="secondRAM" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="secondStorage" alignment="1" pref="105" max="32767" attributes="0"/>
+                                  <Component id="secondScreen" max="32767" attributes="0"/>
+                                  <Component id="secondWeight" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="secondYear" max="32767" attributes="0"/>
+                                  <Component id="secondOS" alignment="1" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="141" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
+                              <Component id="secondCPU" min="-2" pref="220" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+              </Group>
           </Group>
       </Group>
     </DimensionLayout>
@@ -84,21 +128,53 @@
                   <Component id="secondProductPriceLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-              <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="firstGPU" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="secondGPU" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="firstCPU" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="secondCPU" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="firstRAM" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="secondRAM" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="firstStorage" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="secondStorage" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="firstScreen" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="secondScreen" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="firstWeight" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="secondWeight" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="firstYear" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="secondYear" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="firstOS" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="secondOS" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="44" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -107,12 +183,12 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="secondProductImageLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel3"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="firstProductImageLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel3"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
@@ -147,22 +223,26 @@
     </Component>
     <Component class="javax.swing.JLabel" name="firstProductHeaderLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="brand model"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="brand+model(1)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="secondProductHeaderLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel11"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="brand+model (2)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="firstProductPriceLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="price"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Price1"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="secondProductPriceLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel14"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Price2"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
@@ -173,6 +253,102 @@
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
         <Property name="text" type="java.lang.String" value="Operation Sys. :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="firstGPU">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="GPU1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="secondGPU">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="GPU2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="firstCPU">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="CPU1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="firstRAM">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="RAM1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="firstStorage">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Storage1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="firstScreen">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Screen1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="firstWeight">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Weight1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="firstYear">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Year1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="firstOS">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="OS1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="secondCPU">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="CPU2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="secondRAM">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="RAM2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="secondStorage">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Storage2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="secondScreen">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Screen2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="secondWeight">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Weight2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="secondYear">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Year2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="secondOS">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="OS2"/>
       </Properties>
     </Component>
   </SubComponents>
