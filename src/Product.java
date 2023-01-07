@@ -3,45 +3,19 @@ import java.io.Serializable;
 
 public class Product implements Serializable {
 
-    double screen, weight;
-    String brand, model, img, processor, operatingSystem;
-    int year, price, ram, storage;
+    double weight;
+    String brand, model, img;
+    int year, price;
 
-    public Product(String processor, double screen, double weight, int storage, String brand, String model, int year, String operatingSystem, int price, int ram, String img) {
+    public Product(double weight, String brand, String model, int year, int price, String img) {
 
-        this.screen = screen;
         this.weight = weight;
         this.img = img;
         this.brand = brand;
         this.model = model;
         this.year = year;
         this.price = price;
-        this.processor = processor;
-        this.storage = storage;
-        this.operatingSystem = operatingSystem;
-        this.ram = ram;
-    }
 
-    public Product() {
-        this.screen = 0;
-        this.weight = 0;
-        this.img = null;
-        this.brand = null;
-        this.model = null;
-        this.year = 0;
-        this.price = 0;
-        this.processor = null;
-        this.storage = 0;
-        this.operatingSystem = null;
-        this.ram = 0;
-    }
-
-    public double getScreen() {
-        return screen;
-    }
-
-    public void setScreen(double screen) {
-        this.screen = screen;
     }
 
     public double getWeight() {
@@ -84,14 +58,6 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public String getProcessor() {
-        return processor;
-    }
-
-    public void setProcessor(String processor) {
-        this.processor = processor;
-    }
-
     public String getImg() {
         return img;
     }
@@ -100,27 +66,4 @@ public class Product implements Serializable {
         this.img = img;
     }
 
-    public int getStorage() {
-        return storage;
-    }
-
-    public void setStorage(int storage) {
-        this.storage = storage;
-    }
-
-    public String getOperatingSystem() {
-        return operatingSystem;
-    }
-
-    public void setOperatingSystem(String operatingSystem) {
-        this.operatingSystem = operatingSystem;
-    }
-
-    public int getRam() {
-        return ram;
-    }
-
-    public void setRam(int ram) {
-        this.ram = ram;
-    }
 }
