@@ -152,7 +152,7 @@ public final class Menu extends javax.swing.JFrame {
         ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource(laptop.getImg()));
         imageLabel.setIcon(icon);
         productHeaderLabel.setText(laptop.getBrand() + " " + laptop.getModel());
-        priceLabel.setText(laptop.getPrice() + " ₺");
+        priceLabel.setText(laptop.getPrice() + " TL");
 
     }
 
@@ -299,6 +299,7 @@ public final class Menu extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(122, 71, 221));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-add-new-20.png"))); // NOI18N
         jButton1.setText("Product #1");
         jButton1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.white, java.awt.Color.white));
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -309,7 +310,10 @@ public final class Menu extends javax.swing.JFrame {
             }
         });
 
-        clearButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8-close-16.png"))); // NOI18N
+        clearButton1.setBackground(new java.awt.Color(122, 71, 221));
+        clearButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-trash-can-24.png"))); // NOI18N
+        clearButton1.setBorder(null);
+        clearButton1.setFocusable(false);
         clearButton1.setMaximumSize(new java.awt.Dimension(16, 23));
         clearButton1.setMinimumSize(new java.awt.Dimension(16, 23));
         clearButton1.setPreferredSize(new java.awt.Dimension(16, 23));
@@ -333,7 +337,11 @@ public final class Menu extends javax.swing.JFrame {
             }
         });
 
-        clearButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8-close-16.png"))); // NOI18N
+        clearButton2.setBackground(new java.awt.Color(122, 71, 221));
+        clearButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-trash-can-24.png"))); // NOI18N
+        clearButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        clearButton2.setBorderPainted(false);
+        clearButton2.setFocusable(false);
         clearButton2.setMaximumSize(new java.awt.Dimension(16, 23));
         clearButton2.setMinimumSize(new java.awt.Dimension(16, 23));
         clearButton2.setPreferredSize(new java.awt.Dimension(16, 23));
@@ -358,10 +366,10 @@ public final class Menu extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(clearButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clearButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(clearButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clearButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(149, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -372,19 +380,19 @@ public final class Menu extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(productHeaderLabel)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(clearButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(productHeaderLabel)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(8, 8, 8)
+                        .addComponent(clearButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(39, 39, 39)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(clearButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(priceLabel)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(priceLabel)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(clearButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
