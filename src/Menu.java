@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -75,7 +77,7 @@ public final class Menu extends javax.swing.JFrame {
                 String GPUscore = parts[12].trim();
                 String img = parts[13].trim();
                 //assign laptop with constructor from txt file values.
-                Laptop l = new Laptop(Integer.parseInt(id), brand, model, GPU, proccesor, Integer.parseInt(ram), storage, Double.parseDouble(screen), Double.parseDouble(weight), Integer.parseInt(year), operatingSystem, Integer.parseInt(price), Integer.parseInt(GPUscore), img);
+                Laptop l = new Laptop(Integer.parseInt(id), brand, model, GPU, proccesor, Integer.parseInt(ram), Integer.parseInt(storage), Double.parseDouble(screen), Double.parseDouble(weight), Integer.parseInt(year), operatingSystem, Integer.parseInt(price), Integer.parseInt(GPUscore), img);
                 //add new laptop object to laptoplist
                 laptopList.add(l);
 
@@ -221,7 +223,7 @@ public final class Menu extends javax.swing.JFrame {
         jButton5.setBackground(new java.awt.Color(54, 33, 89));
         jButton5.setFont(new java.awt.Font("URW Gothic", 1, 18)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setIcon(new javax.swing.ImageIcon("/home/kerem/Desktop/icons8-vs-64.png")); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-vs-64.png"))); // NOI18N
         jButton5.setText("Compare");
         jButton5.setBorderPainted(false);
         jButton5.setFocusable(false);
@@ -246,7 +248,7 @@ public final class Menu extends javax.swing.JFrame {
         jButton6.setBackground(new java.awt.Color(85, 65, 118));
         jButton6.setFont(new java.awt.Font("URW Gothic", 1, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setIcon(new javax.swing.ImageIcon("/home/kerem/Desktop/icons8-laptop-64.png")); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-laptop-64.png"))); // NOI18N
         jButton6.setText("All Products");
         jButton6.setBorderPainted(false);
         jButton6.setFocusable(false);
@@ -370,12 +372,13 @@ public final class Menu extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(productHeaderLabel)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(clearButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(clearButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(productHeaderLabel)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(39, 39, 39)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(clearButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -453,6 +456,8 @@ public final class Menu extends javax.swing.JFrame {
             product2 = activeLaptop;
             //set button's label
             jButton2.setText(product2.getBrand() + " " + product2.getModel());
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
     }
 
@@ -470,8 +475,20 @@ public final class Menu extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         Compare compare = new Compare();
-        //send product 1 and 2 to compare class for comprasion with setData method
-        compare.setData(product1, product2);
+        try {
+            //send product 1 and 2 to compare class for comprasion with setData method
+            compare.setData(product1, product2);
+        } catch (NoSuchMethodException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchFieldException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         compare.setVisible(true);
         jButton1.setText("Product #1");
         jButton2.setText("Procuct #2");

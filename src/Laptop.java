@@ -1,24 +1,27 @@
 
-import java.io.Serializable;
 
-public class Laptop extends Product implements Serializable {
+public class Laptop extends Product{
 
-    int id, GPUscore;
+    int id, GPUScore;
     String GPU;
 
-    public Laptop(int id, String brand, String model, String GPU, String proccesor, int ram, String storage, double screen, double weight, int year, String operatingSystem, int price, int GPUscore, String img) {
+    public Laptop(int id, String brand, String model, String GPU, String proccesor, int ram, int storage, double screen, double weight, int year, String operatingSystem, int price, int GPUscore, String img) {
         super(proccesor, screen, weight, storage, brand, model, year, operatingSystem, price, ram, img);
         this.GPU = GPU;
         this.id = id;
-        this.GPUscore = GPUscore;
+        this.GPUScore = GPUscore;
     }
 
     public Laptop() {
         super();
         this.GPU = null;
         this.id = 0;
-        this.GPUscore = 0;
+        this.GPUScore = 0;
 
+    }
+
+    public void test() {
+        System.out.println("test");
     }
 
     public int getId() {
@@ -37,11 +40,11 @@ public class Laptop extends Product implements Serializable {
         this.GPU = GPU;
     }
 
-    public int getGPUscore() {
-        return GPUscore;
+    public int getGPUScore() {
+        return GPUScore;
     }
 
-    public void setGPUscore(int GPUscore) {
-        this.GPUscore = GPUscore;
+    public void setGPUScore(int GPUscore) {
+        this.GPUScore = GPUscore;
     }
 }

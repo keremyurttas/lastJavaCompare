@@ -1,2 +1,2 @@
-01 ,Monster ,Semruk S7 ,142499 ,Geforce RTX 3080 ,Intel Core i9-11900K ,128 ,6TB ,17.3 ,4.5 ,2022 ,Windows,100,/pics/monsterSemruk.jpg
-02 ,Apple ,Macbook Pro ,39450 ,No external GPU ,Apple M1 Pro ,16 ,512GB ,14.2 ,1.6 ,2022 , MacOS,0,/pics/macbook.jpg
+01 ,Monster ,Semruk S7 ,142499 ,Geforce RTX 3080 ,Intel Core i9-11900K ,128 ,6000 ,17.3 ,4.5 ,2022 ,Windows,100,/pics/monsterSemruk.jpg
+02 ,Apple ,Macbook Pro ,39450 ,No external GPU ,Apple M1 Pro ,16 ,512 ,14.2 ,1.6 ,2022 , MacOS,0,/pics/macbook.jpg

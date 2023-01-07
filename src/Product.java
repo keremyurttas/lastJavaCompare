@@ -4,10 +4,10 @@ import java.io.Serializable;
 public class Product implements Serializable {
 
     double screen, weight;
-    String brand, model, img, processor, storage, operatingSystem;
-    int year, price, ram;
+    String brand, model, img, processor, operatingSystem;
+    int year, price, ram, storage;
 
-    public Product(String processor, double screen, double weight, String storage, String brand, String model, int year, String operatingSystem, int price, int ram, String img) {
+    public Product(String processor, double screen, double weight, int storage, String brand, String model, int year, String operatingSystem, int price, int ram, String img) {
 
         this.screen = screen;
         this.weight = weight;
@@ -31,7 +31,7 @@ public class Product implements Serializable {
         this.year = 0;
         this.price = 0;
         this.processor = null;
-        this.storage = null;
+        this.storage = 0;
         this.operatingSystem = null;
         this.ram = 0;
     }
@@ -100,11 +100,11 @@ public class Product implements Serializable {
         this.img = img;
     }
 
-    public String getStorage() {
+    public int getStorage() {
         return storage;
     }
 
-    public void setStorage(String storage) {
+    public void setStorage(int storage) {
         this.storage = storage;
     }
 

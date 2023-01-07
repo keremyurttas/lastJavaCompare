@@ -1,8 +1,12 @@
 
 import java.awt.Font;
 import java.awt.font.TextAttribute;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 public class Compare extends javax.swing.JFrame {
 
@@ -16,15 +20,15 @@ public class Compare extends javax.swing.JFrame {
 
     }
 
-    public void setData(Laptop firstProduct, Laptop secondProduct) {
+    public void setData(Laptop firstProduct, Laptop secondProduct) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException, ClassNotFoundException {
         this.firstProduct = firstProduct;
         this.secondProduct = secondProduct;
         displayProducts();
 
     }
 
-    public void displayProducts() {
-        
+    public void displayProducts() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException, ClassNotFoundException {
+
         // First product labels
         ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource(firstProduct.getImg()));
         firstProductImageLabel.setIcon(icon1);
@@ -35,12 +39,12 @@ public class Compare extends javax.swing.JFrame {
         firstGPU.setText(firstProduct.getGPU());
         firstCPU.setText(firstProduct.getProcessor());
         firstRAM.setText(Integer.toString(firstProduct.getRam()) + " GB");
-        firstStorage.setText(firstProduct.getStorage());
+        firstStorage.setText(Integer.toString(firstProduct.getStorage()));
         firstScreen.setText(Double.toString(firstProduct.getScreen()) + '"');
         firstWeight.setText(Double.toString(firstProduct.getWeight()) + " KG");
         firstYear.setText(Integer.toString(firstProduct.getYear()));
         firstOS.setText(firstProduct.getOperatingSystem());
-        
+
         //Second Product Labels
         ImageIcon icon2 = new javax.swing.ImageIcon(getClass().getResource(secondProduct.getImg()));
         secondProductImageLabel.setIcon(icon2);
@@ -49,18 +53,105 @@ public class Compare extends javax.swing.JFrame {
         secondGPU.setText(secondProduct.getGPU());
         secondCPU.setText(secondProduct.getProcessor());
         secondRAM.setText(Integer.toString(secondProduct.getRam()) + " GB");
-        secondStorage.setText(secondProduct.getStorage());
+        secondStorage.setText(Integer.toString(secondProduct.getStorage()));
         secondScreen.setText(Double.toString(secondProduct.getScreen()) + '"');
         secondWeight.setText(Double.toString(secondProduct.getWeight()) + " KG");
         secondYear.setText(Integer.toString(secondProduct.getYear()));
         secondOS.setText(secondProduct.getOperatingSystem());
-        
+
         //Ranking system
-        if(firstProduct.getGPUscore() > secondProduct.getGPUscore()){
-            firstGPU.setFont(new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
-        }else if(secondProduct.getGPUscore() > firstProduct.getGPUscore()){
-            secondGPU.setFont(new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+//        if (firstProduct.getGPUscore() > secondProduct.getGPUscore()) {
+//            firstGPU.setFont(new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+//        } else if (secondProduct.getGPUscore() > firstProduct.getGPUscore()) {
+//            secondGPU.setFont(new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+//        }
+        compareForHigh("GPUScore", firstGPU, secondGPU);
+        compareForHigh("Ram", firstRAM, secondRAM);
+        compareForHigh("Storage", firstStorage, secondStorage);
+        compareForHigh("Screen", firstScreen, secondScreen, "double");
+        compareForHigh("Year", firstYear, secondYear);
+
+    }
+
+    public void compareForHigh(String spec, JLabel first, JLabel second, String dataType) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, ClassNotFoundException {
+
+        //accesing getSpec method
+        Laptop l = new Laptop();
+        Class c = l.getClass();
+        Method getSpec = c.getMethod("get" + spec);
+        //accesing label
+        Class lc = firstGPU.getClass();
+        Method setFont = lc.getMethod("setFont", Font.class);
+        if (dataType.equals("double")) {
+
+            double score1 = ((double) getSpec.invoke(firstProduct));
+            double score2 = ((double) getSpec.invoke(secondProduct));
+
+            if (score1 > score2) {
+                //change font size
+                setFont.invoke(first, new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+
+            } else if (score2 > score1) {
+                //change font size
+                setFont.invoke(second, new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+            } else {
+                //change font size if equal or null
+                setFont.invoke(first, new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+                setFont.invoke(second, new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+
+            }
+
+        } else {
+            int score1 = ((int) getSpec.invoke(firstProduct));
+            int score2 = ((int) getSpec.invoke(secondProduct));
+
+            if (score1 > score2) {
+                //change font size
+                setFont.invoke(first, new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+
+            } else if (score2 > score1) {
+                //change font size
+                setFont.invoke(second, new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+            } else {
+                //change font size if equal or null
+                setFont.invoke(first, new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+                setFont.invoke(second, new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+
+            }
+
         }
+        //spec scores
+
+        //accesing label for font adjustments
+    }
+
+    public void compareForHigh(String spec, JLabel first, JLabel second) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, ClassNotFoundException {
+
+        //accesing getSpec method
+        Laptop l = new Laptop();
+        Class c = l.getClass();
+        Method m = c.getMethod("get" + spec);
+
+        //spec scores
+        int score1 = ((Integer) m.invoke(firstProduct));
+        int score2 = ((Integer) m.invoke(secondProduct));
+        //accesing label for font adjustments
+        Class lc = firstGPU.getClass();
+        Method lm = lc.getMethod("setFont", Font.class);
+        if (score1 > score2) {
+            //change font size
+            lm.invoke(first, new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+
+        } else if (score2 > score1) {
+            //change font size
+            lm.invoke(second, new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+        } else {
+            //change font size if equal or null
+            lm.invoke(first, new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+            lm.invoke(second, new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
+
+        }
+
     }
 
     /**
