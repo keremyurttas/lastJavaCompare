@@ -1,14 +1,11 @@
 
 import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,15 +13,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 public final class Menu extends javax.swing.JFrame {
@@ -33,13 +26,13 @@ public final class Menu extends javax.swing.JFrame {
     JTable laptopTable = new JTable();
     Object value;
     Laptop product1, product2, activeLaptop;
-    int selectedRow = -1;
-    int activeID;
-    int id1, id2;
+    int activeID, id1, id2, selectedRow = -1;
+    String searchText;
+    TableRowSorter myTableRowSorter;
+    //colors for table and hover effect
     Color defaultColor = new Color(54, 33, 89);
     Color activeColor = new Color(85, 65, 118);
     Color tableColor = new Color(177, 156, 217);
-    String searchText;
 
     public Menu() {
         //initialize of components
@@ -51,31 +44,11 @@ public final class Menu extends javax.swing.JFrame {
         designTable();
         //table event listener for table active row changes
         tableEventListener();
+        //searchbar event listener
+        searchBarEventListener();
 
-        //      appending table to scrollPane
+        //appending laptopTtable to scrollPane
         scrollPane.setViewportView(laptopTable);
-    }
-
-    public void search() {
-
-        searchText = searchField.getText();
-        System.out.println(searchText.trim());
-//        if (searchText.trim().isEmpty()) {
-//            System.out.println("oo");
-//            laptopTable.setRowSelectionInterval(1, 1);
-//
-//        }
-
-        TableModel model = laptopTable.getModel();
-        for (int row = 0; row < model.getRowCount(); row++) {
-            for (int col = 0; col < model.getColumnCount(); col++) {
-                if (model.getValueAt(row, col).toString().contains(searchText)) {
-                    // If a match is found, select the row and break
-                    laptopTable.setRowSelectionInterval(row, row);
-                    break;
-                }
-            }
-        }
     }
 
     //populate arraylist from file 
@@ -132,74 +105,44 @@ public final class Menu extends javax.swing.JFrame {
 
         //add row for each element of array
         for (Laptop laptop : laptopList) {
-            model.addRow(new Object[]{laptop.getId(), laptop.getBrand(), laptop.getModel(), laptop.getPrice() + " ₺"});
+            model.addRow(new Object[]{laptop.getId(), laptop.getBrand(), laptop.getModel(), laptop.getPrice() + " TL"});
         }
-        TableRowSorter myTableRowSorter = new TableRowSorter(model);
+        
+        //set row sorter to laptop table
+        myTableRowSorter = new TableRowSorter(model);
         laptopTable.setRowSorter(myTableRowSorter);
+        //set model to laptop table
         laptopTable.setModel(model);
-
-        searchField.getDocument().addDocumentListener(new DocumentListener() {
-
-            public void changedUpdate(DocumentEvent e) {
-                searchText = searchField.getText().toUpperCase();
-                System.out.println(searchText);
-                myTableRowSorter.setRowFilter(new MyRowFilter(searchText));
-//                search();
-
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                searchText = searchField.getText();
-                myTableRowSorter.setRowFilter(new MyRowFilter(searchText));
-//                search();
-
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                searchText = searchField.getText();
-
-// Split the string into an array of words
-                String[] words = searchText.split(" ");
-
-// Loop through the array of words
-                for (int i = 0; i < words.length; i++) {
-                    // Get the first character of the word
-                    char firstChar = words[i].charAt(0);
-                    // Convert the first character to uppercase
-                    firstChar = Character.toUpperCase(firstChar);
-                    // Replace the first character of the word with the uppercase version
-                    words[i] = firstChar + words[i].substring(1);
-                }
-                String output = String.join(" ", words);
-
-                System.out.println(output);
-                myTableRowSorter.setRowFilter(new MyRowFilter(output));
-//                search();
-
-            }
-
-        });
+        //setting id part to not sortable.
+        myTableRowSorter.setSortable(0, false);
 
     }
 
-    public class nonEditableTableModel extends DefaultTableModel {
+    public void searchBarEventListener() {
 
-        //extends from defaultTableModel and set isCellEditable to false for each cell
-        public boolean isCellEditable(int row, int column) {
-            return false;
-        }
+        //searchfield event listeners
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            //for each event, filtering them from sorted results
+            public void changedUpdate(DocumentEvent e) {
+                myTableRowSorter.setRowFilter(new MyRowFilter(wordCapitalizer()));
+            }
 
+            public void removeUpdate(DocumentEvent e) {
+                myTableRowSorter.setRowFilter(new MyRowFilter(wordCapitalizer()));
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                myTableRowSorter.setRowFilter(new MyRowFilter(wordCapitalizer()));
+            }
+
+        });
     }
 
     public void designTable() {
         //set maximum 1 selection at the same time
         laptopTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        //disable header edit and drag
-//        laptopTable.getTableHeader().setEnabled(false);
-        laptopTable.getTableHeader().setBackground(Color.WHITE);
 
-//        column.setPreferredWidth(50);
-        //assign model to the table
+        //table designs
         laptopTable.setShowHorizontalLines(false);
         laptopTable.setShowVerticalLines(false);
         laptopTable.getColumnModel().getColumn(0).setMaxWidth(58);
@@ -210,6 +153,20 @@ public final class Menu extends javax.swing.JFrame {
         laptopTable.getTableHeader().setBackground(tableHeaderColor);
         laptopTable.getTableHeader().setForeground(Color.WHITE);
         laptopTable.getTableHeader().setFont(new java.awt.Font("Ubuntu", 1, 14));
+        laptopTable.setFont(new java.awt.Font("Loma", 0, 14));
+        laptopTable.setRowHeight(40);
+        laptopTable.setFocusable(false);
+        laptopTable.getTableHeader().setReorderingAllowed(false);
+
+    }
+
+    public void displayActiveProduct(Laptop laptop) {
+        //adding product image
+        ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource(laptop.getImg()));
+        imageLabel.setIcon(icon);
+        //adding header and price
+        productHeaderLabel.setText(laptop.getBrand() + " " + laptop.getModel());
+        priceLabel.setText(laptop.getPrice() + " TL");
 
     }
 
@@ -218,14 +175,13 @@ public final class Menu extends javax.swing.JFrame {
         ListSelectionModel laptopModel = laptopTable.getSelectionModel();
         laptopModel.addListSelectionListener(new ListSelectionListener() {
             // function to trigger when list selection index changed  
-
             public void valueChanged(ListSelectionEvent e) {
                 //checking if there is a selection
                 if (!laptopModel.isSelectionEmpty()) {
                     //customized selection background color
                     laptopTable.setSelectionBackground(tableColor);
 
-                    //get selected row's first column value whic is id
+                    //get selected row's first column value which is id
                     selectedRow = laptopModel.getMinSelectionIndex();
                     value = laptopTable.getValueAt(selectedRow, 0);
 
@@ -233,20 +189,12 @@ public final class Menu extends javax.swing.JFrame {
                     activeID = Integer.parseInt(value.toString());
                     activeLaptop = laptopList.get(findProductIndex(activeID));
 
-                    //displays active product on the right side in menu
+                    //displays active product on the top of the menu
                     displayActiveProduct(activeLaptop);
                 }
             }
 
         });
-    }
-
-    public void displayActiveProduct(Laptop laptop) {
-        ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource(laptop.getImg()));
-        imageLabel.setIcon(icon);
-        productHeaderLabel.setText(laptop.getBrand() + " " + laptop.getModel());
-        priceLabel.setText(laptop.getPrice() + " TL");
-
     }
 
     //find the index of given id in laptopList arraylist
@@ -263,35 +211,68 @@ public final class Menu extends javax.swing.JFrame {
         return index;
     }
 
+    //capitalize each word's first letter for better search results
+    public String wordCapitalizer() {
+
+        searchText = searchField.getText();
+        String output = "";
+        if (searchText.isEmpty() == false) {
+            // Split the string into an array of words
+            String[] words = searchText.split(" ");
+
+            // Loop through the array of words
+            for (int i = 0; i < words.length; i++) {
+                // Get the first character of the word
+                char firstChar = words[i].charAt(0);
+                // Convert the first character to uppercase
+                firstChar = Character.toUpperCase(firstChar);
+                // Replace the first character of the word with the uppercase version
+                words[i] = firstChar + words[i].substring(1);
+            }
+            output = String.join(" ", words);
+        }
+
+        return output;
+    }
+
+    public class nonEditableTableModel extends DefaultTableModel {
+
+        //extends from defaultTableModel and set isCellEditable to false for each cell
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        scrollPane = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        compareBtn = new javax.swing.JButton();
+        allProductsBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
         imageLabel = new javax.swing.JLabel();
         productHeaderLabel = new javax.swing.JLabel();
         priceLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        addProduct1Btn = new javax.swing.JButton();
         clearButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        addProduct2Btn = new javax.swing.JButton();
         clearButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         searchField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        exitButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        scrollPane = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -301,65 +282,47 @@ public final class Menu extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1050, 660));
         setResizable(false);
 
-        table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Brand", "Model", "Price"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        scrollPane.setViewportView(table);
-
         jPanel1.setBackground(new java.awt.Color(54, 33, 89));
 
-        jButton5.setBackground(new java.awt.Color(54, 33, 89));
-        jButton5.setFont(new java.awt.Font("URW Gothic", 1, 18)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-vs-64.png"))); // NOI18N
-        jButton5.setText("Compare");
-        jButton5.setBorderPainted(false);
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
-        jButton5.setMaximumSize(new java.awt.Dimension(128, 30));
-        jButton5.setMinimumSize(new java.awt.Dimension(128, 30));
-        jButton5.setPreferredSize(new java.awt.Dimension(128, 30));
-        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+        compareBtn.setBackground(new java.awt.Color(54, 33, 89));
+        compareBtn.setFont(new java.awt.Font("URW Gothic", 1, 18)); // NOI18N
+        compareBtn.setForeground(new java.awt.Color(255, 255, 255));
+        compareBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons/icons8-vs-64.png"))); // NOI18N
+        compareBtn.setText("Compare");
+        compareBtn.setBorderPainted(false);
+        compareBtn.setFocusable(false);
+        compareBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        compareBtn.setMaximumSize(new java.awt.Dimension(128, 30));
+        compareBtn.setMinimumSize(new java.awt.Dimension(128, 30));
+        compareBtn.setPreferredSize(new java.awt.Dimension(128, 30));
+        compareBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton5MouseEntered(evt);
+                compareBtnMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButton5MouseExited(evt);
+                compareBtnMouseExited(evt);
             }
         });
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        compareBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                compareBtnActionPerformed(evt);
             }
         });
 
-        jButton6.setBackground(new java.awt.Color(85, 65, 118));
-        jButton6.setFont(new java.awt.Font("URW Gothic", 1, 18)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-laptop-64.png"))); // NOI18N
-        jButton6.setText("All Products");
-        jButton6.setBorderPainted(false);
-        jButton6.setFocusable(false);
-        jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
-        jButton6.setMaximumSize(new java.awt.Dimension(128, 30));
-        jButton6.setMinimumSize(new java.awt.Dimension(128, 30));
-        jButton6.setPreferredSize(new java.awt.Dimension(128, 30));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        allProductsBtn.setBackground(new java.awt.Color(85, 65, 118));
+        allProductsBtn.setFont(new java.awt.Font("URW Gothic", 1, 18)); // NOI18N
+        allProductsBtn.setForeground(new java.awt.Color(255, 255, 255));
+        allProductsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons/icons8-laptop-64.png"))); // NOI18N
+        allProductsBtn.setText("All Products");
+        allProductsBtn.setBorderPainted(false);
+        allProductsBtn.setFocusable(false);
+        allProductsBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        allProductsBtn.setMaximumSize(new java.awt.Dimension(128, 30));
+        allProductsBtn.setMinimumSize(new java.awt.Dimension(128, 30));
+        allProductsBtn.setPreferredSize(new java.awt.Dimension(128, 30));
+        allProductsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                allProductsBtnActionPerformed(evt);
             }
         });
 
@@ -375,8 +338,8 @@ public final class Menu extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(allProductsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+            .addComponent(compareBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -391,21 +354,21 @@ public final class Menu extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(55, 55, 55)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(allProductsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(compareBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(321, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(122, 71, 221));
 
         imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-laptop-100.png"))); // NOI18N
+        imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons/icons8-laptop-100.png"))); // NOI18N
         imageLabel.setMaximumSize(new java.awt.Dimension(480, 360));
         imageLabel.setMinimumSize(new java.awt.Dimension(480, 360));
         imageLabel.setPreferredSize(new java.awt.Dimension(480, 360));
@@ -421,24 +384,24 @@ public final class Menu extends javax.swing.JFrame {
         priceLabel.setText("******* TL");
         priceLabel.setToolTipText("");
 
-        jButton1.setBackground(new java.awt.Color(122, 71, 221));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-plus-key-24.png"))); // NOI18N
-        jButton1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.white, java.awt.Color.white));
-        jButton1.setBorderPainted(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton1.setFocusable(false);
-        jButton1.setMaximumSize(new java.awt.Dimension(120, 45));
-        jButton1.setMinimumSize(new java.awt.Dimension(120, 45));
-        jButton1.setPreferredSize(new java.awt.Dimension(120, 45));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addProduct1Btn.setBackground(new java.awt.Color(122, 71, 221));
+        addProduct1Btn.setForeground(new java.awt.Color(255, 255, 255));
+        addProduct1Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons/icons8-plus-key-24.png"))); // NOI18N
+        addProduct1Btn.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.white, java.awt.Color.white));
+        addProduct1Btn.setBorderPainted(false);
+        addProduct1Btn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        addProduct1Btn.setFocusable(false);
+        addProduct1Btn.setMaximumSize(new java.awt.Dimension(120, 45));
+        addProduct1Btn.setMinimumSize(new java.awt.Dimension(120, 45));
+        addProduct1Btn.setPreferredSize(new java.awt.Dimension(120, 45));
+        addProduct1Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addProduct1BtnActionPerformed(evt);
             }
         });
 
         clearButton1.setBackground(new java.awt.Color(122, 71, 221));
-        clearButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-trash-can-24.png"))); // NOI18N
+        clearButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons/icons8-trash-can-24.png"))); // NOI18N
         clearButton1.setBorder(null);
         clearButton1.setFocusable(false);
         clearButton1.setMaximumSize(new java.awt.Dimension(16, 23));
@@ -450,23 +413,23 @@ public final class Menu extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(122, 71, 221));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-plus-key-24.png"))); // NOI18N
-        jButton2.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.white, java.awt.Color.white));
-        jButton2.setBorderPainted(false);
-        jButton2.setFocusable(false);
-        jButton2.setMaximumSize(new java.awt.Dimension(120, 45));
-        jButton2.setMinimumSize(new java.awt.Dimension(120, 45));
-        jButton2.setPreferredSize(new java.awt.Dimension(120, 45));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        addProduct2Btn.setBackground(new java.awt.Color(122, 71, 221));
+        addProduct2Btn.setForeground(new java.awt.Color(255, 255, 255));
+        addProduct2Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons/icons8-plus-key-24.png"))); // NOI18N
+        addProduct2Btn.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.white, java.awt.Color.white));
+        addProduct2Btn.setBorderPainted(false);
+        addProduct2Btn.setFocusable(false);
+        addProduct2Btn.setMaximumSize(new java.awt.Dimension(120, 45));
+        addProduct2Btn.setMinimumSize(new java.awt.Dimension(120, 45));
+        addProduct2Btn.setPreferredSize(new java.awt.Dimension(120, 45));
+        addProduct2Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                addProduct2BtnActionPerformed(evt);
             }
         });
 
         clearButton2.setBackground(new java.awt.Color(122, 71, 221));
-        clearButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-trash-can-24.png"))); // NOI18N
+        clearButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons/icons8-trash-can-24.png"))); // NOI18N
         clearButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         clearButton2.setBorderPainted(false);
         clearButton2.setFocusable(false);
@@ -495,8 +458,8 @@ public final class Menu extends javax.swing.JFrame {
                         .addComponent(productHeaderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(addProduct1Btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addProduct2Btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(clearButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -515,13 +478,13 @@ public final class Menu extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(clearButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addProduct1Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(productHeaderLabel)))
                 .addGap(39, 39, 39)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addProduct2Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(clearButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14))
@@ -545,7 +508,7 @@ public final class Menu extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-magnifying-glass-20.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons/icons8-magnifying-glass-20.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -560,20 +523,25 @@ public final class Menu extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(searchField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(searchField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jButton3.setBackground(new java.awt.Color(240, 240, 240));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons8-close-window-64.png"))); // NOI18N
-        jButton3.setBorderPainted(false);
-        jButton3.setFocusable(false);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        exitButton.setBackground(new java.awt.Color(240, 240, 240));
+        exitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons/icons8-close-window-64.png"))); // NOI18N
+        exitButton.setBorderPainted(false);
+        exitButton.setFocusable(false);
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                exitButtonActionPerformed(evt);
             }
         });
+
+        jLabel3.setBackground(new java.awt.Color(240, 240, 240));
+        jLabel3.setFont(new java.awt.Font("Lohit Telugu", 3, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(54, 33, 89));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel3.setText("Product Comparison System ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -582,7 +550,6 @@ public final class Menu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollPane)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -590,32 +557,43 @@ public final class Menu extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
-                        .addGap(97, 97, 97))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, 0)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(exitButton)
+                                .addGap(97, 97, 97))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(scrollPane)
+                                .addGap(14, 14, 14))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(exitButton)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, 0)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(jButton3)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void addProduct1BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProduct1BtnActionPerformed
         //check if there is selected row
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "You haven't choose any product");
@@ -632,14 +610,14 @@ public final class Menu extends javax.swing.JFrame {
             //assign product2 to active laptop
             product1 = activeLaptop;
             //set button's label
-            jButton1.setText(product1.getBrand() + " " + product1.getModel());
+            addProduct1Btn.setText(product1.getBrand() + " " + product1.getModel());
 
         }
 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_addProduct1BtnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void addProduct2BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProduct2BtnActionPerformed
         //check if there is selected row
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "You haven't choose any product");
@@ -658,27 +636,29 @@ public final class Menu extends javax.swing.JFrame {
             //assign product2 to active laptop
             product2 = activeLaptop;
             //set button's label
-            jButton2.setText(product2.getBrand() + " " + product2.getModel());
+            addProduct2Btn.setText(product2.getBrand() + " " + product2.getModel());
 
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_addProduct2BtnActionPerformed
     }
 
     private void clearButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton1ActionPerformed
-        jButton1.setText(null);
+        //deletes first product 
+        addProduct1Btn.setText(null);
         id1 = -1;
         product1 = null;
 
     }//GEN-LAST:event_clearButton1ActionPerformed
 
     private void clearButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton2ActionPerformed
-        jButton2.setText(null);
+        //deletes second product 
+        addProduct2Btn.setText(null);
         id2 = -1;
         product2 = null;
     }//GEN-LAST:event_clearButton2ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+    private void compareBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareBtnActionPerformed
+        //check if both of the products selected
         if (product1 == null || product2 == null) {
             JOptionPane.showMessageDialog(null, "You have to select 2 products to compare!");
         } else {
@@ -686,52 +666,47 @@ public final class Menu extends javax.swing.JFrame {
             try {
                 //send product 1 and 2 to compare class for comprasion with setData method
                 compare.setData(product1, product2);
-            } catch (NoSuchMethodException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvocationTargetException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NoSuchFieldException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | NoSuchFieldException | ClassNotFoundException ex) {
                 Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             }
             compare.setVisible(true);
+
+            //set ids and products to default for new compare
             id1 = -1;
             product1 = null;
             id2 = -1;
             product2 = null;
-            jButton1.setText(null);
-            jButton2.setText(null);
+            addProduct1Btn.setText(null);
+            addProduct2Btn.setText(null);
         }
 
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_compareBtnActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+    private void allProductsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allProductsBtnActionPerformed
+
         JOptionPane.showMessageDialog(null, "You are already in All Products page!");
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_allProductsBtnActionPerformed
 
-    private void jButton5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseEntered
-        // TODO add your handling code here:
-        jButton6.setBackground(defaultColor);
-        jButton5.setBackground(activeColor);
-    }//GEN-LAST:event_jButton5MouseEntered
+    private void compareBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compareBtnMouseEntered
+        //hover effect
+        allProductsBtn.setBackground(defaultColor);
+        compareBtn.setBackground(activeColor);
+    }//GEN-LAST:event_compareBtnMouseEntered
 
-    private void jButton5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseExited
-        jButton6.setBackground(activeColor);
-        jButton5.setBackground(defaultColor);
-    }//GEN-LAST:event_jButton5MouseExited
+    private void compareBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compareBtnMouseExited
+        //hover effect
+        allProductsBtn.setBackground(activeColor);
+        compareBtn.setBackground(defaultColor);
+    }//GEN-LAST:event_compareBtnMouseExited
 
     private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_searchFieldActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        //custom exit button
         System.exit(0);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_exitButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -769,16 +744,17 @@ public final class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addProduct1Btn;
+    private javax.swing.JButton addProduct2Btn;
+    private javax.swing.JButton allProductsBtn;
     private javax.swing.JButton clearButton1;
     private javax.swing.JButton clearButton2;
+    private javax.swing.JButton compareBtn;
+    private javax.swing.JButton exitButton;
     private javax.swing.JLabel imageLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -787,6 +763,5 @@ public final class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel productHeaderLabel;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JTextField searchField;
-    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,7 +1,6 @@
 
 import java.awt.Font;
 import java.awt.font.TextAttribute;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -14,6 +13,7 @@ public class Compare extends javax.swing.JFrame {
      * Creates new form Compare
      */
     Laptop firstProduct, secondProduct;
+    Font winnerFont = new Font("URW Gothic", Font.BOLD, 18).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON));
 
     public Compare() {
         initComponents();
@@ -24,7 +24,6 @@ public class Compare extends javax.swing.JFrame {
         this.firstProduct = firstProduct;
         this.secondProduct = secondProduct;
         displayProducts();
-
     }
 
     public void displayProducts() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException, ClassNotFoundException {
@@ -37,7 +36,7 @@ public class Compare extends javax.swing.JFrame {
         firstGPU.setText(firstProduct.getGPU());
         firstCPU.setText(firstProduct.getProcessor());
         firstRAM.setText(Integer.toString(firstProduct.getRam()) + " GB");
-        firstStorage.setText(Integer.toString(firstProduct.getStorage()));
+        firstStorage.setText((formatStorage(firstProduct.getStorage())));
         firstScreen.setText(Double.toString(firstProduct.getScreen()) + '"');
         firstWeight.setText(Double.toString(firstProduct.getWeight()) + " KG");
         firstYear.setText(Integer.toString(firstProduct.getYear()));
@@ -51,41 +50,32 @@ public class Compare extends javax.swing.JFrame {
         secondGPU.setText(secondProduct.getGPU());
         secondCPU.setText(secondProduct.getProcessor());
         secondRAM.setText(Integer.toString(secondProduct.getRam()) + " GB");
-        secondStorage.setText(Integer.toString(secondProduct.getStorage()));
+        secondStorage.setText((formatStorage(secondProduct.getStorage())));
         secondScreen.setText(Double.toString(secondProduct.getScreen()) + '"');
         secondWeight.setText(Double.toString(secondProduct.getWeight()) + " KG");
         secondYear.setText(Integer.toString(secondProduct.getYear()));
         secondOS.setText(secondProduct.getOperatingSystem());
-
-        //Ranking system
-//        if (firstProduct.getGPUscore() > secondProduct.getGPUscore()) {
-//            firstGPU.setFont(new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
-//        } else if (secondProduct.getGPUscore() > firstProduct.getGPUscore()) {
-//            secondGPU.setFont(new Font("Segoe UI", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON)));
-//        }
+        //ranking process
         compareForHigh("GPUScore", firstGPU, secondGPU, "int");
         compareForHigh("CPUScore", firstCPU, secondCPU, "int");
         compareForHigh("Ram", firstRAM, secondRAM, "int");
         compareForHigh("Storage", firstStorage, secondStorage, "int");
         compareForHigh("Screen", firstScreen, secondScreen, "double");
         compareForHigh("Year", firstYear, secondYear, "int");
+        compareForLow("Weight", firstWeight, secondWeight, "double");
 
     }
 
     public void compareForHigh(String spec, JLabel first, JLabel second, String dataType) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, ClassNotFoundException {
 
         //accesing getSpec method
-//        Laptop l = new Laptop();
-        Class c = firstProduct.getClass();
-        Method getSpec = c.getMethod("get" + spec);
-        //accesing label
-        Class lc = firstGPU.getClass();
-        Method setFont = lc.getMethod("setFont", Font.class);
-
-        Font winnerFont = new Font("URW Gothic", Font.BOLD, 14).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON));
+        Class laptopClass = firstProduct.getClass();
+        Method getSpec = laptopClass.getMethod("get" + spec);
+        //accesing setFont method
+        Class labelClass = firstGPU.getClass();
+        Method setFont = labelClass.getMethod("setFont", Font.class);
 
         if (dataType.equals("double")) {
-
             double score1 = ((double) getSpec.invoke(firstProduct));
             double score2 = ((double) getSpec.invoke(secondProduct));
             if (score1 > score2) {
@@ -124,6 +114,63 @@ public class Compare extends javax.swing.JFrame {
         //spec scores
 
         //accesing label for font adjustments
+    }
+
+    public void compareForLow(String spec, JLabel first, JLabel second, String dataType) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, ClassNotFoundException {
+
+        //accesing getSpec method
+        Class laptopClass = firstProduct.getClass();
+        Method getSpec = laptopClass.getMethod("get" + spec);
+        //accesing setFont method
+        Class labelClass = firstGPU.getClass();
+        Method setFont = labelClass.getMethod("setFont", Font.class);
+
+        if (dataType.equals("double")) {
+            double score1 = ((double) getSpec.invoke(firstProduct));
+            double score2 = ((double) getSpec.invoke(secondProduct));
+            if (score1 < score2) {
+                //change font size
+                setFont.invoke(first, winnerFont);
+
+            } else if (score2 < score1) {
+                //change font size
+                setFont.invoke(second, winnerFont);
+            } else {
+                //change font size if equal or null
+                setFont.invoke(first, winnerFont);
+                setFont.invoke(second, winnerFont);
+
+            }
+
+        } else {
+            int score1 = ((int) getSpec.invoke(firstProduct));
+            int score2 = ((int) getSpec.invoke(secondProduct));
+
+            if (score1 < score2) {
+                //change font size
+                setFont.invoke(first, winnerFont);
+
+            } else if (score2 < score1) {
+                //change font size
+                setFont.invoke(second, winnerFont);
+            } else {
+                //change font size if equal or null
+                setFont.invoke(first, winnerFont);
+                setFont.invoke(second, winnerFont);
+
+            }
+
+        }
+        //spec scores
+
+        //accesing label for font adjustments
+    }
+
+    public String formatStorage(int storage) {
+        if (storage >= 1000) {
+            return storage / 1000 + " TB";
+        }
+        return storage + " GB";
     }
 
     /**
@@ -170,15 +217,20 @@ public class Compare extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jButton3 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(900, 660));
+        setTitle("compare");
+        setFocusable(false);
+        setLocation(new java.awt.Point(0, 0));
         setMinimumSize(new java.awt.Dimension(900, 660));
-        setPreferredSize(new java.awt.Dimension(900, 660));
+        setUndecorated(true);
         setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(54, 33, 89));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel2.setEnabled(false);
         jPanel2.setMaximumSize(new java.awt.Dimension(900, 660));
         jPanel2.setMinimumSize(new java.awt.Dimension(900, 660));
         jPanel2.setPreferredSize(new java.awt.Dimension(900, 660));
@@ -187,7 +239,6 @@ public class Compare extends javax.swing.JFrame {
         jPanel4.setMaximumSize(new java.awt.Dimension(220, 640));
         jPanel4.setPreferredSize(new java.awt.Dimension(280, 640));
 
-        secondGPU.setBackground(null);
         secondGPU.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         secondGPU.setForeground(new java.awt.Color(255, 255, 255));
         secondGPU.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -196,7 +247,6 @@ public class Compare extends javax.swing.JFrame {
         secondGPU.setMinimumSize(new java.awt.Dimension(220, 30));
         secondGPU.setPreferredSize(new java.awt.Dimension(220, 30));
 
-        secondStorage.setBackground(null);
         secondStorage.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         secondStorage.setForeground(new java.awt.Color(255, 255, 255));
         secondStorage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -213,7 +263,6 @@ public class Compare extends javax.swing.JFrame {
         secondProductPriceLabel.setMinimumSize(new java.awt.Dimension(220, 35));
         secondProductPriceLabel.setPreferredSize(new java.awt.Dimension(220, 30));
 
-        secondRAM.setBackground(null);
         secondRAM.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         secondRAM.setForeground(new java.awt.Color(255, 255, 255));
         secondRAM.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -222,7 +271,6 @@ public class Compare extends javax.swing.JFrame {
         secondRAM.setMinimumSize(new java.awt.Dimension(220, 30));
         secondRAM.setPreferredSize(new java.awt.Dimension(220, 30));
 
-        secondCPU.setBackground(null);
         secondCPU.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         secondCPU.setForeground(new java.awt.Color(255, 255, 255));
         secondCPU.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -255,7 +303,6 @@ public class Compare extends javax.swing.JFrame {
         secondOS.setMinimumSize(new java.awt.Dimension(220, 30));
         secondOS.setPreferredSize(new java.awt.Dimension(220, 30));
 
-        secondYear.setBackground(null);
         secondYear.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         secondYear.setForeground(new java.awt.Color(255, 255, 255));
         secondYear.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -272,7 +319,7 @@ public class Compare extends javax.swing.JFrame {
         secondWeight.setMinimumSize(new java.awt.Dimension(62, 23));
         secondWeight.setPreferredSize(new java.awt.Dimension(220, 35));
 
-        secondProductImageLabel.setText("jLabel1");
+        secondProductImageLabel.setText("IMAGE");
         secondProductImageLabel.setMaximumSize(new java.awt.Dimension(220, 200));
         secondProductImageLabel.setMinimumSize(new java.awt.Dimension(220, 200));
         secondProductImageLabel.setPreferredSize(new java.awt.Dimension(220, 200));
@@ -284,15 +331,12 @@ public class Compare extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(0, 0, 0)
-                                .addComponent(secondProductPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(secondProductImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(secondProductImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(secondProductPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(secondProductHeaderLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(secondGPU, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -309,7 +353,7 @@ public class Compare extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addComponent(secondProductImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(secondProductHeaderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(secondProductPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -329,7 +373,7 @@ public class Compare extends javax.swing.JFrame {
                 .addComponent(secondYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(secondOS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(155, 155, 155))
+                .addGap(143, 143, 143))
         );
 
         secondWeight.getAccessibleContext().setAccessibleName("");
@@ -357,7 +401,6 @@ public class Compare extends javax.swing.JFrame {
         firstProductHeaderLabel.setMinimumSize(new java.awt.Dimension(220, 35));
         firstProductHeaderLabel.setPreferredSize(new java.awt.Dimension(220, 23));
 
-        firstProductPriceLabel.setBackground(null);
         firstProductPriceLabel.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         firstProductPriceLabel.setForeground(new java.awt.Color(255, 255, 255));
         firstProductPriceLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -366,7 +409,6 @@ public class Compare extends javax.swing.JFrame {
         firstProductPriceLabel.setMinimumSize(new java.awt.Dimension(220, 35));
         firstProductPriceLabel.setPreferredSize(new java.awt.Dimension(220, 30));
 
-        firstGPU.setBackground(null);
         firstGPU.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         firstGPU.setForeground(new java.awt.Color(255, 255, 255));
         firstGPU.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -375,7 +417,6 @@ public class Compare extends javax.swing.JFrame {
         firstGPU.setMinimumSize(new java.awt.Dimension(220, 35));
         firstGPU.setPreferredSize(new java.awt.Dimension(220, 30));
 
-        firstCPU.setBackground(null);
         firstCPU.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         firstCPU.setForeground(new java.awt.Color(255, 255, 255));
         firstCPU.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -384,7 +425,6 @@ public class Compare extends javax.swing.JFrame {
         firstCPU.setMinimumSize(new java.awt.Dimension(220, 35));
         firstCPU.setPreferredSize(new java.awt.Dimension(220, 30));
 
-        firstRAM.setBackground(null);
         firstRAM.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         firstRAM.setForeground(new java.awt.Color(255, 255, 255));
         firstRAM.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -393,7 +433,6 @@ public class Compare extends javax.swing.JFrame {
         firstRAM.setMinimumSize(new java.awt.Dimension(220, 35));
         firstRAM.setPreferredSize(new java.awt.Dimension(220, 30));
 
-        firstStorage.setBackground(null);
         firstStorage.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         firstStorage.setForeground(new java.awt.Color(255, 255, 255));
         firstStorage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -402,7 +441,6 @@ public class Compare extends javax.swing.JFrame {
         firstStorage.setMinimumSize(new java.awt.Dimension(220, 35));
         firstStorage.setPreferredSize(new java.awt.Dimension(220, 30));
 
-        firstScreen.setBackground(null);
         firstScreen.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         firstScreen.setForeground(new java.awt.Color(255, 255, 255));
         firstScreen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -411,7 +449,6 @@ public class Compare extends javax.swing.JFrame {
         firstScreen.setMinimumSize(new java.awt.Dimension(220, 35));
         firstScreen.setPreferredSize(new java.awt.Dimension(220, 30));
 
-        firstWeight.setBackground(null);
         firstWeight.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         firstWeight.setForeground(new java.awt.Color(255, 255, 255));
         firstWeight.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -420,7 +457,6 @@ public class Compare extends javax.swing.JFrame {
         firstWeight.setMinimumSize(new java.awt.Dimension(220, 35));
         firstWeight.setPreferredSize(new java.awt.Dimension(220, 30));
 
-        firstYear.setBackground(null);
         firstYear.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         firstYear.setForeground(new java.awt.Color(255, 255, 255));
         firstYear.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -435,7 +471,6 @@ public class Compare extends javax.swing.JFrame {
         firstProductImageLabel.setMinimumSize(new java.awt.Dimension(220, 200));
         firstProductImageLabel.setPreferredSize(new java.awt.Dimension(220, 200));
 
-        firstOS.setBackground(null);
         firstOS.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
         firstOS.setForeground(new java.awt.Color(255, 255, 255));
         firstOS.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -450,7 +485,6 @@ public class Compare extends javax.swing.JFrame {
         jLabel1.setText("GPU:");
         jLabel1.setMaximumSize(new java.awt.Dimension(50, 30));
         jLabel1.setMinimumSize(new java.awt.Dimension(50, 30));
-        jLabel1.setPreferredSize(new java.awt.Dimension(35, 19));
 
         jLabel2.setFont(new java.awt.Font("URW Gothic", 3, 15)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -458,7 +492,6 @@ public class Compare extends javax.swing.JFrame {
         jLabel2.setText("CPU:");
         jLabel2.setMaximumSize(new java.awt.Dimension(50, 30));
         jLabel2.setMinimumSize(new java.awt.Dimension(50, 30));
-        jLabel2.setPreferredSize(new java.awt.Dimension(34, 19));
 
         jLabel3.setFont(new java.awt.Font("URW Gothic", 3, 15)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -466,7 +499,6 @@ public class Compare extends javax.swing.JFrame {
         jLabel3.setText("RAM:");
         jLabel3.setMaximumSize(new java.awt.Dimension(50, 30));
         jLabel3.setMinimumSize(new java.awt.Dimension(50, 30));
-        jLabel3.setPreferredSize(new java.awt.Dimension(38, 19));
 
         jLabel4.setFont(new java.awt.Font("URW Gothic", 3, 15)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -516,6 +548,18 @@ public class Compare extends javax.swing.JFrame {
 
         jSeparator1.setBackground(new java.awt.Color(204, 204, 204));
 
+        jButton3.setBackground(new java.awt.Color(54, 33, 89));
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons/icons8-go-back-64.png"))); // NOI18N
+        jButton3.setBorderPainted(false);
+        jButton3.setFocusable(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/icons/icons8-vs-64.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -524,43 +568,50 @@ public class Compare extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(136, 136, 136))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(130, 130, 130))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48))
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(firstProductPriceLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(firstProductImageLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(firstProductHeaderLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(firstCPU, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(firstOS, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(firstStorage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(firstScreen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(firstWeight, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(firstYear, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(firstGPU, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(firstRAM, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(firstProductPriceLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(firstProductHeaderLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(firstCPU, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(firstOS, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(firstStorage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(firstScreen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(firstWeight, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(firstYear, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(firstGPU, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(firstRAM, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(firstProductImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel10)
+                        .addGap(23, 23, 23)))
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73))
+                .addGap(121, 121, 121))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(253, 253, 253)
@@ -574,12 +625,20 @@ public class Compare extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(91, 91, 91)
+                                .addGap(15, 15, 15)
+                                .addComponent(jButton3)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(firstProductImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(firstProductImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(148, 148, 148)
+                                    .addComponent(jLabel10))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(firstProductHeaderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(firstProductPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -635,7 +694,12 @@ public class Compare extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -684,7 +748,9 @@ public class Compare extends javax.swing.JFrame {
     private javax.swing.JLabel firstStorage;
     private javax.swing.JLabel firstWeight;
     private javax.swing.JLabel firstYear;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
