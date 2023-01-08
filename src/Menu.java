@@ -19,7 +19,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -131,14 +130,17 @@ public final class Menu extends javax.swing.JFrame {
         //searchfield event listeners
         searchField.getDocument().addDocumentListener(new DocumentListener() {
             //for each event, filtering them from sorted results
+            @Override
             public void changedUpdate(DocumentEvent e) {
                 myTableRowSorter.setRowFilter(new MyRowFilter(wordCapitalizer()));
             }
 
+            @Override
             public void removeUpdate(DocumentEvent e) {
                 myTableRowSorter.setRowFilter(new MyRowFilter(wordCapitalizer()));
             }
 
+            @Override
             public void insertUpdate(DocumentEvent e) {
                 myTableRowSorter.setRowFilter(new MyRowFilter(wordCapitalizer()));
             }
@@ -148,6 +150,7 @@ public final class Menu extends javax.swing.JFrame {
     
     public void searchBarFocusEvent() {
         searchField.addFocusListener(new FocusListener() {
+            @Override
             public void focusGained(FocusEvent e) {
                 searchField.setText("");
             }
@@ -195,28 +198,25 @@ public final class Menu extends javax.swing.JFrame {
     public void tableEventListener() {
         //add list selection event to laptopTable
         ListSelectionModel laptopModel = laptopTable.getSelectionModel();
-        laptopModel.addListSelectionListener(new ListSelectionListener() {
-            // function to trigger when list selection index changed  
-            public void valueChanged(ListSelectionEvent e) {
-                //checking if there is a selection
-                if (!laptopModel.isSelectionEmpty()) {
-                    //customized selection background color
-                    laptopTable.setSelectionBackground(tableColor);
-
-                    //get selected row's first column value which is id
-                    selectedRow = laptopModel.getMinSelectionIndex();
-                    value = laptopTable.getValueAt(selectedRow, 0);
-
-                    //set active ID and activeLaptop
-                    activeID = Integer.parseInt(value.toString());
-                    activeLaptop = laptopList.get(findProductIndex(activeID));
-
-                    //displays active product on the top of the menu
-                    displayActiveProduct(activeLaptop);
-                }
+        laptopModel.addListSelectionListener((ListSelectionEvent e) -> {
+            //checking if there is a selection
+            if (!laptopModel.isSelectionEmpty()) {
+                //customized selection background color
+                laptopTable.setSelectionBackground(tableColor);
+                
+                //get selected row's first column value which is id
+                selectedRow = laptopModel.getMinSelectionIndex();
+                value = laptopTable.getValueAt(selectedRow, 0);
+                
+                //set active ID and activeLaptop
+                activeID = Integer.parseInt(value.toString());
+                activeLaptop = laptopList.get(findProductIndex(activeID));
+                
+                //displays active product on the top of the menu
+                displayActiveProduct(activeLaptop);
             }
-
-        });
+        } // function to trigger when list selection index changed
+        );
     }
 
     //find the index of given id in laptopList arraylist
@@ -260,6 +260,7 @@ public final class Menu extends javax.swing.JFrame {
     public class nonEditableTableModel extends DefaultTableModel {
 
         //extends from defaultTableModel and set isCellEditable to false for each cell
+        @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
