@@ -3,17 +3,16 @@ import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class Compare extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Compare
-     */
     Laptop firstProduct, secondProduct;
     Font winnerFont = new Font("URW Gothic", Font.BOLD, 18).deriveFont(Collections.singletonMap(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON));
+    DecimalFormat formatter = new DecimalFormat("#,###");
 
     public Compare() {
         initComponents();
@@ -32,7 +31,7 @@ public class Compare extends javax.swing.JFrame {
         ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource(firstProduct.getImg()));
         firstProductImageLabel.setIcon(icon1);
         firstProductHeaderLabel.setText(firstProduct.getBrand() + " " + firstProduct.getModel());
-        firstProductPriceLabel.setText(Integer.toString(firstProduct.getPrice()) + " TL");
+        firstProductPriceLabel.setText(formatter.format(firstProduct.getPrice()) + " TL");
         firstGPU.setText(firstProduct.getGPU());
         firstCPU.setText(firstProduct.getProcessor());
         firstRAM.setText(Integer.toString(firstProduct.getRam()) + " GB");
@@ -46,7 +45,7 @@ public class Compare extends javax.swing.JFrame {
         ImageIcon icon2 = new javax.swing.ImageIcon(getClass().getResource(secondProduct.getImg()));
         secondProductImageLabel.setIcon(icon2);
         secondProductHeaderLabel.setText(secondProduct.getBrand() + " " + secondProduct.getModel());
-        secondProductPriceLabel.setText(Integer.toString(secondProduct.getPrice()) + " TL");
+        secondProductPriceLabel.setText(formatter.format(secondProduct.getPrice()) + " TL");
         secondGPU.setText(secondProduct.getGPU());
         secondCPU.setText(secondProduct.getProcessor());
         secondRAM.setText(Integer.toString(secondProduct.getRam()) + " GB");

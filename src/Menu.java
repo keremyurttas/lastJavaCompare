@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,6 +36,7 @@ public final class Menu extends javax.swing.JFrame {
     Color defaultColor = new Color(54, 33, 89);
     Color activeColor = new Color(85, 65, 118);
     Color tableColor = new Color(177, 156, 217);
+    DecimalFormat formatter = new DecimalFormat("#,###");
 
     public Menu() {
         //initialize of components
@@ -110,7 +112,7 @@ public final class Menu extends javax.swing.JFrame {
 
         //add row for each element of array
         for (Laptop laptop : laptopList) {
-            model.addRow(new Object[]{laptop.getId(), laptop.getBrand(), laptop.getModel(), laptop.getPrice() + " TL"});
+            model.addRow(new Object[]{laptop.getId(), laptop.getBrand(), laptop.getModel(), formatter.format(laptop.getPrice()) + " TL"});
         }
         
         //set row sorter to laptop table
@@ -118,8 +120,9 @@ public final class Menu extends javax.swing.JFrame {
         laptopTable.setRowSorter(myTableRowSorter);
         //set model to laptop table
         laptopTable.setModel(model);
-        //setting id part to not sortable.
+        //setting id and price parts to not sortable.
         myTableRowSorter.setSortable(0, false);
+        myTableRowSorter.setSortable(3, false);
 
     }
 
@@ -185,7 +188,7 @@ public final class Menu extends javax.swing.JFrame {
         imageLabel.setIcon(icon);
         //adding header and price
         productHeaderLabel.setText(laptop.getBrand() + " " + laptop.getModel());
-        priceLabel.setText(laptop.getPrice() + " TL");
+        priceLabel.setText(formatter.format(laptop.getPrice()) + " TL");
 
     }
 
@@ -521,7 +524,7 @@ public final class Menu extends javax.swing.JFrame {
         jPanel3.setPreferredSize(new java.awt.Dimension(267, 25));
 
         searchField.setBackground(new java.awt.Color(252, 194, 76));
-        searchField.setText("Search");
+        searchField.setText("Type here something to search!");
         searchField.setBorder(null);
         searchField.setMinimumSize(new java.awt.Dimension(64, 23));
         searchField.setPreferredSize(new java.awt.Dimension(64, 23));

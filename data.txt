@@ -10,7 +10,7 @@
 10,Apple, Macbook Air 13.6",27999,No external GPU, Apple M2,8,256,13.6,1.24,2022,MacOS,0,15325,/pics/laptopImages/MacbookAirM2.png
 11 ,MSI ,Creator Z17 ,122049 ,Geforce RTX 3080 ,Intel Core i9-12900H ,64 , 2000, 17.0 ,2.49 ,2022 ,Windows,25332 ,16682 ,/pics/laptopImages/msiZ17.png
 12 ,Lenovo ,Legion 7 ,63999 ,Geforce RTX 3070 Ti ,Intel Core i7-12800HX ,32 ,1000 ,16.0 ,2.53 ,2022 ,DOS, 23726, 18364 ,/pics/laptopImages/legion7.png
-13 ,Casper ,Excalibur ,84199 ,Geforce RTX 3080 Ti ,Intel Core i9-12900HK ,64 ,2000 ,16.0 ,2.50 ,2022 ,Windows, 20457, 28987 ,/pics/laptopImages/excalibur.png
-14 ,Asus ,ZenBook Pro Duo ,99999 , Geforce RTX 3070 Ti ,Intel Core i9-12900H ,32 ,1000 , 15.6 ,2.40 ,2022 ,Windows ,23726 ,16682 ,/pics/laptopImages/zenbook.png
-15 ,Dell ,Precision ,83398 ,RTX A4500 ,Intel Core i9-12950HX ,32 ,512 ,16.0 ,2.60 ,2021 ,Windows ,18007 ,32601 ,/pics/laptopImages/precision7670.png
+13 ,Casper ,Excalibur G911 ,84199 ,Geforce RTX 3080 Ti ,Intel Core i9-12900HK ,64 ,2000 ,16.0 ,2.50 ,2022 ,Windows, 20457, 28987 ,/pics/laptopImages/excalibur.png
+14 ,Asus ,ZenBook Pro Duo 15 ,99999 , Geforce RTX 3070 Ti ,Intel Core i9-12900H ,32 ,1000 , 15.6 ,2.40 ,2022 ,Windows ,23726 ,16682 ,/pics/laptopImages/zenbook.png
+15 ,Dell ,Precision 7670 ,83398 ,RTX A4500 ,Intel Core i9-12950HX ,32 ,512 ,16.0 ,2.60 ,2021 ,Windows ,18007 ,32601 ,/pics/laptopImages/precision7670.png
 16 ,HP ,OMEN ,36000 ,Radeon RX 6600M ,AMD Ryzen 9 5900HX ,32 ,1000 ,16.1 ,2.31 ,2021 ,Windows ,12395 ,22882 ,/pics/laptopImages/hpomen.png
