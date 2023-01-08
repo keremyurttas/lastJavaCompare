@@ -1,7 +1,6 @@
 
-import java.io.Serializable;
 
-public class Product implements Serializable {
+public class Product {
 
     double weight;
     String brand, model, img;
