@@ -524,7 +524,9 @@ public final class Menu extends javax.swing.JFrame {
         jPanel3.setPreferredSize(new java.awt.Dimension(267, 25));
 
         searchField.setBackground(new java.awt.Color(252, 194, 76));
-        searchField.setText("Type here something to search!");
+        searchField.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        searchField.setForeground(new java.awt.Color(102, 102, 102));
+        searchField.setText("Type something to search!");
         searchField.setBorder(null);
         searchField.setMinimumSize(new java.awt.Dimension(64, 23));
         searchField.setPreferredSize(new java.awt.Dimension(64, 23));
@@ -542,8 +544,8 @@ public final class Menu extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addGap(0, 16, Short.MAX_VALUE))
         );
